@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import StyledOutlineButton from '../../Components/StyledOutlineButton';
-import StyledFillButton from '../../Components/StyledFillButton';
+import StyledOutlineButton from '../../Components/Buttons/StyledOutlineButton';
+import StyledFillButton from '../../Components/Buttons/StyledFillButton';
 import logo from '../../Assets/logo_lightBlue.svg';
 import SearchIcon from '@material-ui/icons/Search';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+
+import { Redirect } from 'react-router-dom';
 
 import colors from '../../Styles/colors';
 
@@ -45,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '.75rem',
 		margin: theme.spacing(1),
 		marginTop: theme.spacing(2),
-		verticalAlign: 'bottom',
 	},
 	inviteBanner: {
 		fontSize: '1.75rem',
@@ -75,132 +76,128 @@ const useStyles = makeStyles((theme) => ({
 const Login = (props) => {
 	const classes = useStyles();
 
-	const {
-		registerModalOpen,
-		loginEmail,
-		loginPassword,
-		setLoginPassword,
-		setLoginEmail,
-		handleRegisterModalOpen,
-		handleLogIn,
-	} = props;
-
-	const handleSignUpClick = () => {
-		handleRegisterModalOpen();
-		console.log('test');
-	};
+	const { setLoginPassword, setLoginEmail, handleLogIn, loggedIn } = props;
 
 	const handleLogInSubmit = () => {
 		handleLogIn();
 	};
 
-	return (
-		<CssBaseline>
-			<Grid className={classes.root} container direction="row">
-				<Grid item xs={6}>
-					<Grid
-						className={classes.leftContainer}
-						alignItems="center"
-						container
-						direction="row"
-					>
-						<Grid item xs={2}></Grid>
-						<Grid item xs={8}>
-							<Grid alignItems="center" container direction="row">
-								<SearchIcon className={classes.leftContainerIcon} />
-								<Typography className={classes.leftBanner}>
-									Follow Airen's Interests.
-								</Typography>
-							</Grid>
-							<Grid alignItems="center" container direction="row">
-								<PeopleOutlineIcon className={classes.leftContainerIcon} />
-								<Typography className={classes.leftBanner}>
-									Hear what Airen is talking about.
-								</Typography>
-							</Grid>
-							<Grid alignItems="center" container direction="row">
-								<ChatBubbleOutlineIcon className={classes.leftContainerIcon} />
-								<Typography className={classes.leftBanner}>
-									Join the Conversation
-								</Typography>
-							</Grid>
-						</Grid>
-						<Grid item xs={2}></Grid>
-					</Grid>
-				</Grid>
-				<Grid item xs={6}>
-					<Grid className={classes.rightContainer} container direction="column">
+	//should wrap in higher order component
+	if (loggedIn) {
+		return <Redirect to="/profile" />;
+	} else {
+		return (
+			<CssBaseline>
+				<Grid className={classes.root} container direction="row">
+					<Grid item xs={6}>
 						<Grid
-							className={classes.loginRow}
-							justify="center"
+							className={classes.leftContainer}
+							alignItems="center"
 							container
 							direction="row"
 						>
-							<Grid item>
-								<TextField
-									className={classes.loginTextField}
-									label="email"
-									variant="outlined"
-									onChange={(e) => setLoginEmail(e.target.value)}
-								></TextField>
+							<Grid item xs={2}></Grid>
+							<Grid item xs={8}>
+								<Grid alignItems="center" container direction="row">
+									<SearchIcon className={classes.leftContainerIcon} />
+									<Typography className={classes.leftBanner}>
+										Follow Airen's Interests.
+									</Typography>
+								</Grid>
+								<Grid alignItems="center" container direction="row">
+									<PeopleOutlineIcon className={classes.leftContainerIcon} />
+									<Typography className={classes.leftBanner}>
+										Hear what Airen is talking about.
+									</Typography>
+								</Grid>
+								<Grid alignItems="center" container direction="row">
+									<ChatBubbleOutlineIcon
+										className={classes.leftContainerIcon}
+									/>
+									<Typography className={classes.leftBanner}>
+										Join the Conversation
+									</Typography>
+								</Grid>
+							</Grid>
+							<Grid item xs={2}></Grid>
+						</Grid>
+					</Grid>
+					<Grid item xs={6}>
+						<Grid
+							className={classes.rightContainer}
+							container
+							direction="column"
+						>
+							<Grid
+								className={classes.loginRow}
+								justify="center"
+								container
+								direction="row"
+							>
+								<form method="POST" onSubmit={handleLogInSubmit}>
+									<TextField
+										className={classes.loginTextField}
+										label="email"
+										variant="outlined"
+										onChange={(e) => setLoginEmail(e.target.value)}
+									></TextField>
+
+									<TextField
+										className={classes.loginTextField}
+										type="password"
+										label="password"
+										variant="outlined"
+										onChange={(e) => setLoginPassword(e.target.value)}
+									></TextField>
+
+									<StyledOutlineButton
+										onClick={handleLogInSubmit}
+										className={classes.loginButton}
+									>
+										Log In
+									</StyledOutlineButton>
+								</form>
+							</Grid>
+							<Grid container direction="row">
+								<Grid item>
+									<img src={logo} className={classes.logo} alt="logo" />
+								</Grid>
+							</Grid>
+
+							<Grid className={classes.inviteBanner} container direction="row">
+								<Grid item>
+									<Typography className={classes.inviteBanner}>
+										See what's happening in Airen's world right now.
+									</Typography>
+								</Grid>
 							</Grid>
 							<Grid item>
-								<TextField
-									className={classes.loginTextField}
-									type="password"
-									label="password"
-									variant="outlined"
-									onChange={(e) => setLoginPassword(e.target.value)}
-								></TextField>
+								<Typography className={classes.joinBanner}>
+									Join Airen Twitter Today
+								</Typography>
 							</Grid>
 							<Grid item>
-								<StyledOutlineButton
-									onClick={handleLogInSubmit}
-									className={classes.loginButton}
+								<StyledFillButton
+									component={Link}
+									to={{
+										pathname: '/register',
+									}}
+									className={classes.bottomBannerButton}
 								>
+									Sign up
+								</StyledFillButton>
+							</Grid>
+							<Grid item>
+								<StyledOutlineButton className={classes.bottomBannerButton}>
 									Log In
 								</StyledOutlineButton>
 							</Grid>
 						</Grid>
-						<Grid container direction="row">
-							<Grid item>
-								<img src={logo} className={classes.logo} alt="logo" />
-							</Grid>
-						</Grid>
-
-						<Grid className={classes.inviteBanner} container direction="row">
-							<Grid item>
-								<Typography className={classes.inviteBanner}>
-									See what's happening in Airen's world right now.
-								</Typography>
-							</Grid>
-						</Grid>
-						<Grid item>
-							<Typography className={classes.joinBanner}>
-								Join Twitter Today
-							</Typography>
-						</Grid>
-						<Grid item>
-							<StyledFillButton
-								component={Link}
-								to={{
-									pathname: '/register',
-								}}
-								className={classes.bottomBannerButton}
-							>
-								Sign up
-							</StyledFillButton>
-						</Grid>
-						<Grid item>
-							<StyledOutlineButton className={classes.bottomBannerButton}>
-								Log In
-							</StyledOutlineButton>
-						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
-		</CssBaseline>
-	);
+			</CssBaseline>
+		);
+	}
 };
 
 export default Login;

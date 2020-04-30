@@ -8,7 +8,7 @@ import {
 	Dialog,
 	makeStyles,
 } from '@material-ui/core';
-import StyledFillButton from '../../Components/StyledFillButton';
+import StyledFillButton from '../../Components/Buttons/StyledFillButton';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -90,7 +90,6 @@ const Register = (props) => {
 			<form method="POST" onSubmit={handleSubmit} className={classes.form}>
 				<Grid
 					container
-					alignItems="center"
 					direction="column"
 					alignItems="center"
 					spacing={2}

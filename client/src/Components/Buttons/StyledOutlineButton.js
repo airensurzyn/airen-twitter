@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-import colors from '../Styles/colors';
+import colors from '../../Styles/colors';
 
 const StyledOutlineButton = withStyles({
 	root: {
