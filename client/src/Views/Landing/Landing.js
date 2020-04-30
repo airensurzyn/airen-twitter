@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Login from './Login';
 import Register from './Register';
 import { registerUser, loginUser } from '../../Utils/api';
 
+import AuthNUserContext from '../../Components/Session/AuthNUserContext';
+
 const Landing = (props) => {
+	const context = useContext(AuthNUserContext);
+
+	const [loggedIn, setLoggedIn] = useState(context.token ? true : false);
 	const [registerModalOpen, setRegisterModalOpen] = useState(true);
 	const [registerFirstName, setRegisterFirstName] = useState('');
 	const [registerLastName, setRegisterLastName] = useState('');
@@ -29,24 +34,22 @@ const Landing = (props) => {
 			confirmPassword: registerConfirmPassword,
 		};
 		try {
-			//console.log('sending...');
-			let user = await registerUser(userData);
+			await registerUser(userData);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
 	const handleLogIn = async () => {
-		console.log('Clicked');
-		console.log(loginPassword);
 		const loginData = {
 			email: loginEmail,
 			password: loginPassword,
 		};
-		console.log('Logging in..');
 		try {
-			let data = await loginUser(loginData);
-			console.log('finished');
+			let res = await loginUser(loginData);
+			context.setToken(res.data.token);
+			setLoggedIn(true);
+			console.log('token should be set : ' + res.data.token);
 		} catch (error) {
 			console.log(error);
 		}
@@ -83,6 +86,7 @@ const Landing = (props) => {
 						setLoginPassword={setLoginPassword}
 						loginPassword={loginPassword}
 						setLoginEmail={setLoginEmail}
+						loggedIn={loggedIn}
 					/>
 				</Route>
 			</Switch>
