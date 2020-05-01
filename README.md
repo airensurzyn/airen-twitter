@@ -1,4 +1,4 @@
-# airen-twitter
+# not-twitter
 
 Twitter replica focusing on React and Javascript programming.
 

@@ -101,13 +101,13 @@ const Login = (props) => {
 								<Grid alignItems="center" container direction="row">
 									<SearchIcon className={classes.leftContainerIcon} />
 									<Typography className={classes.leftBanner}>
-										Follow Airen's Interests.
+										Follow People's Interests.
 									</Typography>
 								</Grid>
 								<Grid alignItems="center" container direction="row">
 									<PeopleOutlineIcon className={classes.leftContainerIcon} />
 									<Typography className={classes.leftBanner}>
-										Hear what Airen is talking about.
+										Hear what People is talking about.
 									</Typography>
 								</Grid>
 								<Grid alignItems="center" container direction="row">
@@ -167,13 +167,13 @@ const Login = (props) => {
 							<Grid className={classes.inviteBanner} container direction="row">
 								<Grid item>
 									<Typography className={classes.inviteBanner}>
-										See what's happening in Airen's world right now.
+										See what's happening in !Twitter's world right now.
 									</Typography>
 								</Grid>
 							</Grid>
 							<Grid item>
 								<Typography className={classes.joinBanner}>
-									Join Airen Twitter Today
+									Join !Twitter Today
 								</Typography>
 							</Grid>
 							<Grid item>
