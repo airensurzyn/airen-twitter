@@ -20,6 +20,8 @@ const Landing = (props) => {
 	const [registerUsername, setRegisterUsername] = useState('');
 	const [loginEmail, setLoginEmail] = useState('');
 	const [loginPassword, setLoginPassword] = useState('');
+	const [loginErrors, setLoginErrors] = useState({});
+	const [registerErrors, setRegisterErrors] = useState({});
 
 	const toggleRegisterModal = () => {
 		setRegisterModalOpen(!registerModalOpen);
@@ -29,6 +31,7 @@ const Landing = (props) => {
 		const userData = {
 			firstName: registerFirstName,
 			lastName: registerLastName,
+			username: registerUsername,
 			email: registerEmail,
 			password: registerPassword,
 			confirmPassword: registerConfirmPassword,
@@ -36,7 +39,8 @@ const Landing = (props) => {
 		try {
 			await registerUser(userData);
 		} catch (error) {
-			console.log(error);
+			console.log(error.response);
+			setRegisterErrors(error.response.data);
 		}
 	};
 
@@ -50,7 +54,7 @@ const Landing = (props) => {
 			context.setToken(res.data.token);
 			setLoggedIn(true);
 		} catch (error) {
-			console.log(error);
+			setLoginErrors(error.response.data);
 		}
 	};
 
@@ -74,6 +78,7 @@ const Landing = (props) => {
 						username={registerUsername}
 						setRegisterUsername={setRegisterUsername}
 						handleRegisterModalClose={toggleRegisterModal}
+						registerErrors={registerErrors}
 					/>
 				</Route>
 			</Switch>
@@ -88,6 +93,7 @@ const Landing = (props) => {
 						loginPassword={loginPassword}
 						setLoginEmail={setLoginEmail}
 						loggedIn={loggedIn}
+						loginErrors={loginErrors}
 					/>
 				</Route>
 			</Switch>

@@ -9,6 +9,7 @@ import {
 	makeStyles,
 } from '@material-ui/core';
 import StyledFillButton from '../../Components/Buttons/StyledFillButton';
+import colors from '../../Styles/colors';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -22,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	registerTitle: {
 		fontSize: '2rem',
-		color: ``,
 	},
 	form: {
 		width: '100%',
@@ -37,6 +37,14 @@ const useStyles = makeStyles((theme) => ({
 	registerInputFieldRow: { marginBottom: theme.spacing(1) },
 	statusLabel: {
 		//color: `${colors.darkGray}`,
+	},
+	registerSubmitButton: {
+		margin: theme.spacing(1),
+		width: '200px',
+		color: `${colors.white}`,
+		border: 'none',
+		fontSize: '.8rem',
+		textTransform: 'none',
 	},
 }));
 
@@ -59,6 +67,7 @@ const Register = (props) => {
 		setRegisterPassword,
 		setRegisterConfirmPassword,
 		setRegisterUsername,
+		registerErrors,
 	} = props;
 
 	const handleClose = () => {
@@ -69,10 +78,6 @@ const Register = (props) => {
 	const handleSubmit = () => {
 		registerUser();
 	};
-
-	/*const successDialogClose = () => {
-		setCreateSuccess(null);
-	};*/
 
 	return (
 		<Dialog
@@ -113,8 +118,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterFirstName(e.target.value)}
 								value={firstName}
-								//error={'firstName' in errors}
-								//helperText={errors.firstName}
+								error={'firstName' in registerErrors}
+								helperText={registerErrors.firstName}
 							/>
 						</Grid>
 						<Grid item sm={4}>
@@ -125,8 +130,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterLastName(e.target.value)}
 								value={lastName}
-								//error={'lastName' in errors}
-								//helperText={errors.lastName}
+								error={'lastName' in registerErrors}
+								helperText={registerErrors.lastName}
 							/>
 						</Grid>
 					</Grid>
@@ -147,8 +152,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterEmail(e.target.value)}
 								value={email}
-								//error={'email' in errors}
-								//helperText={errors.email}
+								error={'email' in registerErrors}
+								helperText={registerErrors.email}
 							/>
 						</Grid>
 					</Grid>
@@ -168,6 +173,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterUsername(e.target.value)}
 								value={username}
+								error={'username' in registerErrors}
+								helperText={registerErrors.username}
 							/>
 						</Grid>
 					</Grid>
@@ -189,8 +196,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterPassword(e.target.value)}
 								value={password}
-								//error={'email' in errors}
-								//helperText={errors.email}
+								error={'password' in registerErrors}
+								helperText={registerErrors.password}
 							/>
 						</Grid>
 						<Grid item sm={4}>
@@ -202,14 +209,19 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterConfirmPassword(e.target.value)}
 								value={confirmPassword}
-								//error={'email' in errors}
-								//helperText={errors.email}
+								error={'confirmPassword' in registerErrors}
+								helperText={registerErrors.confirmPassword}
 							/>
 						</Grid>
 					</Grid>
 
 					<Grid item sm={8}>
-						<StyledFillButton onClick={handleSubmit}>Submit</StyledFillButton>
+						<StyledFillButton
+							className={classes.registerSubmitButton}
+							onClick={handleSubmit}
+						>
+							Submit
+						</StyledFillButton>
 					</Grid>
 				</Grid>
 			</form>

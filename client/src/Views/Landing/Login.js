@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1),
 		borderRadius: 7,
 		backgroundColor: `${colors.white}`,
-		fontSize: '2em',
+		fontSize: '1em',
 	},
 	loginButton: {
 		width: '90px',
@@ -49,17 +49,19 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(2),
 	},
 	inviteBanner: {
-		fontSize: '1.75rem',
+		//margin: theme.spacing(4),
+		//marginRight: theme.spacing(6),
+	},
+	largeBanner: {
+		fontSize: '1.5rem',
 		fontWeight: 'bold',
 		color: `${colors.lightBlue}`,
-		marginBottom: theme.spacing(4),
-		marginRight: theme.spacing(6),
 	},
 	logo: {
 		height: '40px',
 		width: '40px',
-		justify: 'left',
-		marginLeft: theme.spacing(6),
+		alignItems: 'left',
+		//marginLeft: theme.spacing(6),
 	},
 	leftBanner: {
 		color: `${colors.white}`,
@@ -76,10 +78,22 @@ const useStyles = makeStyles((theme) => ({
 const Login = (props) => {
 	const classes = useStyles();
 
-	const { setLoginPassword, setLoginEmail, handleLogIn, loggedIn } = props;
+	const {
+		setLoginPassword,
+		setLoginEmail,
+		handleLogIn,
+		loggedIn,
+		loginErrors,
+	} = props;
 
 	const handleLogInSubmit = () => {
 		handleLogIn();
+	};
+
+	const onEnterPress = (e) => {
+		if (e.key === 'Enter') {
+			handleLogInSubmit();
+		}
 	};
 
 	//should wrap in higher order component
@@ -88,7 +102,12 @@ const Login = (props) => {
 	} else {
 		return (
 			<CssBaseline>
-				<Grid className={classes.root} container direction="row">
+				<Grid
+					className={classes.root}
+					onKeyPress={onEnterPress}
+					container
+					direction="row"
+				>
 					<Grid item xs={6}>
 						<Grid
 							className={classes.leftContainer}
@@ -140,6 +159,8 @@ const Login = (props) => {
 										label="email"
 										variant="outlined"
 										onChange={(e) => setLoginEmail(e.target.value)}
+										error={'email' in loginErrors}
+										helperText={loginErrors.email}
 									></TextField>
 
 									<TextField
@@ -148,6 +169,8 @@ const Login = (props) => {
 										label="password"
 										variant="outlined"
 										onChange={(e) => setLoginPassword(e.target.value)}
+										error={'password' in loginErrors}
+										helperText={loginErrors.password}
 									></TextField>
 
 									<StyledOutlineButton
@@ -158,13 +181,16 @@ const Login = (props) => {
 									</StyledOutlineButton>
 								</form>
 							</Grid>
-							<Grid container direction="row">
+							<Grid
+								container
+								className={classes.inviteBanner}
+								alignItems="center"
+								direction="column"
+							>
 								<Grid item>
 									<img src={logo} className={classes.logo} alt="logo" />
 								</Grid>
-							</Grid>
 
-							<Grid className={classes.inviteBanner} container direction="row">
 								<Grid item>
 									<Typography className={classes.inviteBanner}>
 										See what's happening in !Twitter's world right now.

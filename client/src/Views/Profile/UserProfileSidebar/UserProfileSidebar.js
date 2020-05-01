@@ -28,10 +28,10 @@ const useStyles = makeStyles((theme) => ({
 	tweetButton: {
 		marginTop: theme.spacing(6),
 		margin: theme.spacing(1),
-		width: '200px',
+		width: '70%',
 		color: `${colors.white}`,
 		border: 'none',
-		fontSize: '.75rem',
+		fontSize: '.8rem',
 		textTransform: 'none',
 	},
 }));
