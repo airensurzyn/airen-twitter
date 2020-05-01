@@ -17,11 +17,11 @@ const Landing = (props) => {
 	const [registerEmail, setRegisterEmail] = useState('');
 	const [registerPassword, setRegisterPassword] = useState('');
 	const [registerConfirmPassword, setRegisterConfirmPassword] = useState('');
+	const [registerUsername, setRegisterUsername] = useState('');
 	const [loginEmail, setLoginEmail] = useState('');
 	const [loginPassword, setLoginPassword] = useState('');
 
 	const toggleRegisterModal = () => {
-		console.log(registerModalOpen);
 		setRegisterModalOpen(!registerModalOpen);
 	};
 
@@ -49,7 +49,6 @@ const Landing = (props) => {
 			let res = await loginUser(loginData);
 			context.setToken(res.data.token);
 			setLoggedIn(true);
-			console.log('token should be set : ' + res.data.token);
 		} catch (error) {
 			console.log(error);
 		}
@@ -72,6 +71,8 @@ const Landing = (props) => {
 						setRegisterPassword={setRegisterPassword}
 						confirmPassword={registerConfirmPassword}
 						setRegisterConfirmPassword={setRegisterConfirmPassword}
+						username={registerUsername}
+						setRegisterUsername={setRegisterUsername}
 						handleRegisterModalClose={toggleRegisterModal}
 					/>
 				</Route>

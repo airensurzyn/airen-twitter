@@ -14,7 +14,6 @@ const withAuthentication = (Component) => {
 		useEffect(() => {
 			const getCurrentUser = async () => {
 				if (token) {
-					console.log(token);
 					window.localStorage.setItem('token', token);
 					axios.defaults.headers.common['Authorization'] = token;
 					const loggedInUser = await getAuthenticatedUser();

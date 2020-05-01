@@ -19,11 +19,19 @@ router.post('/register', (req, res) => {
 		return res.status(400).json(errors);
 	}
 
-	User.findOne({ email: req.body.email }).then((user) => {
+	User.find({
+		$or: [{ email: req.body.email }, { username: req.body.username }],
+	}).then((user) => {
 		if (user) {
-			return res.status(400).json({
-				email: 'Email already exists',
-			});
+			if (user.email === req.body.email) {
+				return res.status(400).json({
+					email: 'Email already exists',
+				});
+			} else {
+				return res.status(400).json({
+					username: 'Username already exists',
+				});
+			}
 		} else {
 			const newUser = new User({
 				firstName: req.body.firstName,
@@ -99,9 +107,29 @@ router.post('/login', (req, res) => {
 	});
 });
 
-router.get('', passport.authenticate('jwt', { session: false }), (req, res) => {
-	console.log(req);
-	return res.status(200).send();
-});
+router.get(
+	'',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			const userId = req.user.id;
+
+			const user = await User.findById(userId);
+			if (!user) {
+				res.status(404).send({ id: `User with id ${userId} is not found` });
+			} else {
+				res.json({
+					id: user.id,
+					firstName: user.firstName,
+					lastName: user.lastName,
+					email: user.email,
+				});
+			}
+		} catch (error) {
+			console.log('Error getting user: ', error);
+			res.status(500).send({ error: error });
+		}
+	}
+);
 
 module.exports = router;

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import requireAuth from '../../Components/Session/requireAuth';
 import { Grid, makeStyles } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import colors from '../../Styles/colors';
 import UserProfileSidebar from './UserProfileSidebar/UserProfileSidebar';
 import UserProfileMain from './UserProfileMain/UserProfileMain';
+import AuthNUserContext from '../../Components/Session/AuthNUserContext';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -21,6 +22,7 @@ const tweetNavbarTabs = ['Tweets', 'Likes'];
 
 const UserProfile = (props) => {
 	const classes = useStyles();
+	const userContext = useContext(AuthNUserContext);
 
 	const [selectedTweetNavbarTab, setSelectedTweetNavbarTab] = useState();
 
@@ -31,7 +33,10 @@ const UserProfile = (props) => {
 					<UserProfileSidebar />
 				</Grid>
 				<Grid item xs={6}>
-					<UserProfileMain tweetNavbarTabs={tweetNavbarTabs} />
+					<UserProfileMain
+						userContext={userContext}
+						tweetNavbarTabs={tweetNavbarTabs}
+					/>
 				</Grid>
 				<Grid item xs={3}>
 					<Grid className={classes.searchColumn} container direction="column">

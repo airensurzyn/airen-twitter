@@ -48,6 +48,7 @@ const Register = (props) => {
 		firstName,
 		lastName,
 		email,
+		username,
 		password,
 		confirmPassword,
 		handleRegisterModalClose,
@@ -57,6 +58,7 @@ const Register = (props) => {
 		setRegisterEmail,
 		setRegisterPassword,
 		setRegisterConfirmPassword,
+		setRegisterUsername,
 	} = props;
 
 	const handleClose = () => {
@@ -147,6 +149,25 @@ const Register = (props) => {
 								value={email}
 								//error={'email' in errors}
 								//helperText={errors.email}
+							/>
+						</Grid>
+					</Grid>
+					<Grid
+						container
+						alignItems="center"
+						direction="row"
+						justify="center"
+						spacing={2}
+						className={classes.registerInputFieldRow}
+					>
+						<Grid item sm={8}>
+							<TextField
+								label="Username"
+								name="registerFormUsername"
+								variant="outlined"
+								fullWidth
+								onChange={(e) => setRegisterUsername(e.target.value)}
+								value={username}
 							/>
 						</Grid>
 					</Grid>

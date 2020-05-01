@@ -57,11 +57,15 @@ const useStyles = makeStyles((theme) => ({
 
 const UserProfileMain = (props) => {
 	const classes = useStyles();
+
+	const { userContext } = props;
+	console.log(userContext);
+
 	return (
 		<Grid className={classes.root} container direction="row">
 			<Grid className={classes.mainColumn} container direction="column">
 				<div className={classes.profileTitle}>
-					<Typography>Profile Name</Typography>
+					<Typography>{userContext.user.data.firstName}</Typography>
 				</div>
 				<Divider />
 				<div className={classes.profileBackgroundImage}>
