@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 	profileBackgroundImage: {
 		height: '25%',
 		width: '100%',
-		//backgroundColor: `${colors.lightBlue}`,
 	},
 	bgImage: {
 		width: '100%',
@@ -65,7 +64,7 @@ const UserProfileMain = (props) => {
 		<Grid className={classes.root} container direction="row">
 			<Grid className={classes.mainColumn} container direction="column">
 				<div className={classes.profileTitle}>
-					<Typography>{userContext.user.data.firstName}</Typography>
+					<Typography>{userContext.user.data.username}</Typography>
 				</div>
 				<Divider />
 				<div className={classes.profileBackgroundImage}>
@@ -86,14 +85,16 @@ const UserProfileMain = (props) => {
 						</Grid>
 					</div>
 					<Grid item>
-						<Typography>Profile Name</Typography>
+						<Typography>! {userContext.user.data.username}</Typography>
 					</Grid>
 					<Grid item>
-						<Typography>Joined</Typography>
+						<Typography>
+							Joined : {userContext.user.data.created.slice(0, 4)}
+						</Typography>
 					</Grid>
 					<Grid item container direction="row">
-						<Typography>Followers : </Typography>
-						<Typography>Followed By :</Typography>
+						<Typography>Followers: </Typography>
+						<Typography>Followed By:</Typography>
 					</Grid>
 				</Grid>
 				<div className={classes.profileTweetsNavbar}>

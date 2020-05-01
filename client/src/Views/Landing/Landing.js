@@ -31,6 +31,7 @@ const Landing = (props) => {
 		const userData = {
 			firstName: registerFirstName,
 			lastName: registerLastName,
+			username: registerUsername,
 			email: registerEmail,
 			password: registerPassword,
 			confirmPassword: registerConfirmPassword,
@@ -38,6 +39,7 @@ const Landing = (props) => {
 		try {
 			await registerUser(userData);
 		} catch (error) {
+			console.log(error.response);
 			setRegisterErrors(error.response.data);
 		}
 	};

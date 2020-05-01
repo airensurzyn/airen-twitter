@@ -9,6 +9,7 @@ import {
 	makeStyles,
 } from '@material-ui/core';
 import StyledFillButton from '../../Components/Buttons/StyledFillButton';
+import colors from '../../Styles/colors';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -22,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	registerTitle: {
 		fontSize: '2rem',
-		color: ``,
 	},
 	form: {
 		width: '100%',
@@ -37,6 +37,14 @@ const useStyles = makeStyles((theme) => ({
 	registerInputFieldRow: { marginBottom: theme.spacing(1) },
 	statusLabel: {
 		//color: `${colors.darkGray}`,
+	},
+	registerSubmitButton: {
+		margin: theme.spacing(1),
+		width: '200px',
+		color: `${colors.white}`,
+		border: 'none',
+		fontSize: '.8rem',
+		textTransform: 'none',
 	},
 }));
 
@@ -70,10 +78,6 @@ const Register = (props) => {
 	const handleSubmit = () => {
 		registerUser();
 	};
-
-	/*const successDialogClose = () => {
-		setCreateSuccess(null);
-	};*/
 
 	return (
 		<Dialog
@@ -169,6 +173,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterUsername(e.target.value)}
 								value={username}
+								error={'username' in registerErrors}
+								helperText={registerErrors.username}
 							/>
 						</Grid>
 					</Grid>
@@ -190,8 +196,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterPassword(e.target.value)}
 								value={password}
-								error={'confirmPassword' in registerErrors}
-								helperText={registerErrors.confirmPassword}
+								error={'password' in registerErrors}
+								helperText={registerErrors.password}
 							/>
 						</Grid>
 						<Grid item sm={4}>
@@ -210,7 +216,12 @@ const Register = (props) => {
 					</Grid>
 
 					<Grid item sm={8}>
-						<StyledFillButton onClick={handleSubmit}>Submit</StyledFillButton>
+						<StyledFillButton
+							className={classes.registerSubmitButton}
+							onClick={handleSubmit}
+						>
+							Submit
+						</StyledFillButton>
 					</Grid>
 				</Grid>
 			</form>
