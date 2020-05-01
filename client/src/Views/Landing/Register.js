@@ -59,6 +59,7 @@ const Register = (props) => {
 		setRegisterPassword,
 		setRegisterConfirmPassword,
 		setRegisterUsername,
+		registerErrors,
 	} = props;
 
 	const handleClose = () => {
@@ -113,8 +114,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterFirstName(e.target.value)}
 								value={firstName}
-								//error={'firstName' in errors}
-								//helperText={errors.firstName}
+								error={'firstName' in registerErrors}
+								helperText={registerErrors.firstName}
 							/>
 						</Grid>
 						<Grid item sm={4}>
@@ -125,8 +126,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterLastName(e.target.value)}
 								value={lastName}
-								//error={'lastName' in errors}
-								//helperText={errors.lastName}
+								error={'lastName' in registerErrors}
+								helperText={registerErrors.lastName}
 							/>
 						</Grid>
 					</Grid>
@@ -147,8 +148,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterEmail(e.target.value)}
 								value={email}
-								//error={'email' in errors}
-								//helperText={errors.email}
+								error={'email' in registerErrors}
+								helperText={registerErrors.email}
 							/>
 						</Grid>
 					</Grid>
@@ -189,8 +190,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterPassword(e.target.value)}
 								value={password}
-								//error={'email' in errors}
-								//helperText={errors.email}
+								error={'confirmPassword' in registerErrors}
+								helperText={registerErrors.confirmPassword}
 							/>
 						</Grid>
 						<Grid item sm={4}>
@@ -202,8 +203,8 @@ const Register = (props) => {
 								fullWidth
 								onChange={(e) => setRegisterConfirmPassword(e.target.value)}
 								value={confirmPassword}
-								//error={'email' in errors}
-								//helperText={errors.email}
+								error={'confirmPassword' in registerErrors}
+								helperText={registerErrors.confirmPassword}
 							/>
 						</Grid>
 					</Grid>

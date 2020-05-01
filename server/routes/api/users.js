@@ -60,20 +60,21 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
 	// Form validation
 	const { errors, isValid } = validateLoginInput(req.body);
-	console.log(req.body.password);
 	// Check validation
 	if (!isValid) {
+		console.log(errors);
 		return res.status(400).json(errors);
 	}
 
 	const { email, password } = req.body;
 
-	console.log(password);
 	// Find user by email
 	User.findOne({ email }).then((user) => {
 		// Check if user exists
 		if (!user) {
-			return res.status(404).json({ emailnotfound: 'Email not found' });
+			return res
+				.status(404)
+				.json({ password: 'Email and password do not match' });
 		}
 		// Check password
 		bcrypt.compare(password, user.password).then((isMatch) => {
@@ -89,7 +90,7 @@ router.post('/login', (req, res) => {
 					payload,
 					keys.secretOrKey,
 					{
-						expiresIn: 31556926, // 1 year in seconds
+						expiresIn: 31556926,
 					},
 					(err, token) => {
 						res.json({
@@ -101,7 +102,7 @@ router.post('/login', (req, res) => {
 			} else {
 				return res
 					.status(400)
-					.json({ passwordincorrect: 'Password incorrect' });
+					.json({ password: 'Email and password do not match' });
 			}
 		});
 	});
