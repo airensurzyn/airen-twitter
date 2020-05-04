@@ -2,9 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, IconButton } from '@material-ui/core';
 import profilePicture from '../../Assets/profilePicture.jpg';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
@@ -20,8 +18,15 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 'bold',
 		marginRight: theme.spacing(2),
 	},
-	tweetInteractionRow: { marginLeft: '-20px', marginBottom: theme.spacing(1) },
-	tweetInteractionNumber: { marginLeft: theme.spacing(1) },
+	tweetInteractionButton: {
+		'&:hover': { backgroundColor: 'transparent' },
+		marginLeft: theme.spacing(-1.5),
+	},
+	tweetInteractionRow: {},
+	tweetInteractionNumber: {
+		marginRight: theme.spacing(10),
+		marginLeft: theme.spacing(1),
+	},
 	date: { color: '#636363', justifyContent: 'right' },
 }));
 
@@ -49,11 +54,14 @@ const Tweet = (props) => {
 				<Grid
 					container
 					direction="row"
-					justify="space-around"
+					justify="left"
 					className={classes.tweetInteractionRow}
 				>
 					<Grid item>
-						<IconButton disableRipple>
+						<IconButton
+							disableRipple
+							className={classes.tweetInteractionButton}
+						>
 							<Reply />
 							<Typography className={classes.tweetInteractionNumber}>
 								0
@@ -61,7 +69,10 @@ const Tweet = (props) => {
 						</IconButton>
 					</Grid>
 					<Grid item>
-						<IconButton disableRipple>
+						<IconButton
+							disableRipple
+							className={classes.tweetInteractionButton}
+						>
 							<Retweet />
 							<Typography className={classes.tweetInteractionNumber}>
 								0
@@ -69,7 +80,10 @@ const Tweet = (props) => {
 						</IconButton>
 					</Grid>
 					<Grid item>
-						<IconButton disableRipple>
+						<IconButton
+							disableRipple
+							className={classes.tweetInteractionButton}
+						>
 							<Like />
 							<Typography className={classes.tweetInteractionNumber}>
 								0

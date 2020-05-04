@@ -91,7 +91,7 @@ const UserProfileMain = (props) => {
 							<img
 								src={profilePicture}
 								className={classes.profileImage}
-								alt="profile picture"
+								alt="profile"
 							/>
 						</Grid>
 					</div>

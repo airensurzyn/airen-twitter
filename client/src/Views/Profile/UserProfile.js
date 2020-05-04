@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import requireAuth from '../../Components/Session/requireAuth';
 import { Grid, makeStyles, TextField } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';

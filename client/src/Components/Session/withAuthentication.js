@@ -16,8 +16,12 @@ const withAuthentication = (Component) => {
 				if (token) {
 					window.localStorage.setItem('token', token);
 					axios.defaults.headers.common['Authorization'] = token;
-					const loggedInUser = await getAuthenticatedUser();
-					setUser(loggedInUser);
+					try {
+						const loggedInUser = await getAuthenticatedUser();
+						setUser(loggedInUser);
+					} catch (error) {
+						console.log(error);
+					}
 				}
 			};
 			getCurrentUser();

@@ -98,6 +98,7 @@ router.post('/login', (req, res) => {
 						res.json({
 							success: true,
 							token: 'Bearer ' + token,
+							username: user.username,
 						});
 					}
 				);
@@ -114,13 +115,16 @@ router.get(
 	'',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
+		console.log('check');
 		try {
 			const userId = req.user.id;
 
 			const user = await User.findById(userId);
 			if (!user) {
+				console.log('check');
 				res.status(404).send({ id: `User with id ${userId} is not found` });
 			} else {
+				console.log('check');
 				res.json({
 					id: user.id,
 					firstName: user.firstName,
@@ -131,6 +135,7 @@ router.get(
 				});
 			}
 		} catch (error) {
+			console.log('check');
 			console.log('Error getting user: ', error);
 			res.status(500).send({ error: error });
 		}

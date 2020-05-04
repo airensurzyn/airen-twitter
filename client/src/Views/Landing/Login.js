@@ -84,6 +84,7 @@ const Login = (props) => {
 		handleLogIn,
 		loggedIn,
 		loginErrors,
+		loggedInUsername,
 	} = props;
 
 	const handleLogInSubmit = () => {
@@ -98,7 +99,9 @@ const Login = (props) => {
 
 	//should wrap in higher order component
 	if (loggedIn) {
-		return <Redirect to="/profile" />;
+		console.log(loggedInUsername);
+		const redirectUrl = '/profile/' + loggedInUsername;
+		return <Redirect to={redirectUrl} />;
 	} else {
 		return (
 			<CssBaseline>
