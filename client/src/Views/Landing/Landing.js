@@ -6,11 +6,15 @@ import Register from './Register';
 import { registerUser, loginUser } from '../../Utils/api';
 
 import AuthNUserContext from '../../Components/Session/AuthNUserContext';
+import UserProfile from '../Profile/UserProfile';
 
 const Landing = (props) => {
 	const context = useContext(AuthNUserContext);
 
 	const [loggedIn, setLoggedIn] = useState(context.token ? true : false);
+	const [loggedInUsername, setLoggedInUsername] = useState(
+		context.user ? context.user.username : ''
+	);
 	const [registerModalOpen, setRegisterModalOpen] = useState(true);
 	const [registerFirstName, setRegisterFirstName] = useState('');
 	const [registerLastName, setRegisterLastName] = useState('');
@@ -52,6 +56,7 @@ const Landing = (props) => {
 		try {
 			let res = await loginUser(loginData);
 			context.setToken(res.data.token);
+			setLoggedInUsername(res.data.username);
 			setLoggedIn(true);
 		} catch (error) {
 			setLoginErrors(error.response.data);
@@ -83,6 +88,7 @@ const Landing = (props) => {
 				</Route>
 			</Switch>
 			<Switch>
+				<Route path={['/profile/:username']} component={UserProfile} />
 				<Route path={['/', '/login']}>
 					<Login
 						registerModalOpen={registerModalOpen}
@@ -94,6 +100,7 @@ const Landing = (props) => {
 						setLoginEmail={setLoginEmail}
 						loggedIn={loggedIn}
 						loginErrors={loginErrors}
+						loggedInUsername={loggedInUsername}
 					/>
 				</Route>
 			</Switch>

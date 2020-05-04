@@ -9,7 +9,7 @@ const loginUser = (data) => {
 };
 
 const getAuthenticatedUser = () => {
-	return axios.get('api/users');
+	return axios.get('/api/users');
 };
 
 export { registerUser, loginUser, getAuthenticatedUser };

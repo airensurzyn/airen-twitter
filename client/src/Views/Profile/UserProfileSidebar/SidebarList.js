@@ -31,7 +31,7 @@ const SidebarList = () => {
 	return (
 		<div className={classes.root}>
 			<List>
-				<ListItem button>
+				<ListItem button disableRipple>
 					<ListItemIcon className={classes.listIcon}>
 						<HomeOutlinedIcon />
 					</ListItemIcon>
@@ -41,7 +41,7 @@ const SidebarList = () => {
 						primary="Home"
 					/>
 				</ListItem>
-				<ListItem button>
+				<ListItem button disableRipple>
 					<ListItemIcon className={classes.listIcon}>
 						<NotificationIcon />
 					</ListItemIcon>
@@ -51,7 +51,7 @@ const SidebarList = () => {
 						primary="Notifications"
 					/>
 				</ListItem>
-				<ListItem button>
+				<ListItem button disableRipple>
 					<ListItemIcon className={classes.listIcon}>
 						<MessagesIcon />
 					</ListItemIcon>
@@ -61,7 +61,7 @@ const SidebarList = () => {
 						primary="Messages"
 					/>
 				</ListItem>
-				<ListItem button>
+				<ListItem button disableRipple>
 					<ListItemIcon className={classes.listIcon}>
 						<PersonIcon />
 					</ListItemIcon>
@@ -71,7 +71,7 @@ const SidebarList = () => {
 						primary="Profile"
 					/>
 				</ListItem>
-				<ListItem button>
+				<ListItem button disableRipple>
 					<ListItemIcon className={classes.listIcon}>
 						<MoreIcon />
 					</ListItemIcon>

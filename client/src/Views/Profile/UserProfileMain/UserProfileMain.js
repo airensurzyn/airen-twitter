@@ -5,6 +5,7 @@ import backgroundImage from '../../../Assets/bernie_arrested.png';
 import profilePicture from '../../../Assets/profilePicture.jpg';
 
 import TweetNavbar from './TweetNavbar';
+import TweetList from './TweetList';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		borderRight: '1px solid #dddddd',
 		backgroundColor: `${colors.white}`,
+		overflow: 'auto',
 	},
 	mainColumn: {},
 	profileTitle: {
@@ -22,8 +24,15 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-start',
 		padding: '0 30px',
 	},
+	profileUsername: {
+		fontWeight: 'bold',
+		fontSize: '1.25rem',
+	},
+	profileDetail: {
+		color: '#636363',
+	},
 	profileBackgroundImage: {
-		height: '25%',
+		height: '22%',
 		width: '100%',
 	},
 	bgImage: {
@@ -51,7 +60,9 @@ const useStyles = makeStyles((theme) => ({
 		maxHeight: '100%',
 		borderRadius: '50%',
 	},
-	profileTweetsSection: {},
+	profileTweetsSection: {
+		width: '100%',
+	},
 }));
 
 const UserProfileMain = (props) => {
@@ -80,27 +91,35 @@ const UserProfileMain = (props) => {
 							<img
 								src={profilePicture}
 								className={classes.profileImage}
-								alt="logo"
+								alt="profile"
 							/>
 						</Grid>
 					</div>
 					<Grid item>
-						<Typography>! {userContext.user.data.username}</Typography>
+						<Typography className={classes.profileUsername}>
+							!{userContext.user.data.username}
+						</Typography>
 					</Grid>
 					<Grid item>
-						<Typography>
+						<Typography className={classes.profileDetail}>
 							Joined : {userContext.user.data.created.slice(0, 4)}
 						</Typography>
 					</Grid>
 					<Grid item container direction="row">
-						<Typography>Followers: </Typography>
-						<Typography>Followed By:</Typography>
+						<Typography className={classes.profileDetail}>
+							Followers:{' '}
+						</Typography>
+						<Typography className={classes.profileDetail}>
+							Followed By:
+						</Typography>
 					</Grid>
 				</Grid>
 				<div className={classes.profileTweetsNavbar}>
 					<TweetNavbar tweetNavbarTabs={props.tweetNavbarTabs} />
 				</div>
-				<div className={classes.profileTweetsSection}></div>
+				<div className={classes.profileTweetsSection}>
+					<TweetList />
+				</div>
 			</Grid>
 		</Grid>
 	);
