@@ -33,6 +33,16 @@ const useStyles = makeStyles((theme) => ({
 const Tweet = (props) => {
 	const classes = useStyles();
 
+	const { tweet } = props;
+
+	const formatDate = (dateString) => {
+		let date = new Date(dateString);
+		date = date.toDateString().split(' ');
+		const month = date[1];
+		const day = Number.parseInt(date[2]);
+		return `${month} ${day}`;
+	};
+
 	return (
 		<ListItem button disableRipple alignItems="flex-start">
 			<ListItemAvatar>
@@ -44,13 +54,12 @@ const Tweet = (props) => {
 						<Typography className={classes.username}>!TheoWalcott14</Typography>
 					</Grid>
 					<Grid item>
-						<Typography className={classes.date}>May 1, 2020</Typography>
+						<Typography className={classes.date}>
+							{formatDate(tweet.created)}
+						</Typography>
 					</Grid>
 				</Grid>
-				<ListItemText>
-					This is the content of the first Tweet on Not(!) Twitter. All other
-					tweets after this will be considered secondary.
-				</ListItemText>
+				<ListItemText>{tweet.content}</ListItemText>
 				<Grid
 					container
 					direction="row"

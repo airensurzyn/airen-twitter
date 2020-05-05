@@ -10,17 +10,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const TweetList = () => {
+const TweetList = (props) => {
 	const classes = useStyles();
+	const { tweetList } = props;
+
+	const tweets = tweetList.map((tweet) => (
+		<div>
+			<Tweet tweet={tweet} />
+			<Divider />
+		</div>
+	));
 
 	return (
 		<div className={classes.root}>
-			<List>
-				<Tweet />
-				<Divider />
-				<Tweet />
-				<Divider />
-			</List>
+			<List>{tweets}</List>
 		</div>
 	);
 };

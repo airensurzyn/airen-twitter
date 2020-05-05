@@ -12,4 +12,18 @@ const getAuthenticatedUser = () => {
 	return axios.get('/api/users');
 };
 
-export { registerUser, loginUser, getAuthenticatedUser };
+const getTweets = () => {
+	return axios.get('/api/tweets');
+};
+
+const createTweet = (data) => {
+	return axios.post('/api/tweets', data);
+};
+
+export {
+	registerUser,
+	loginUser,
+	getAuthenticatedUser,
+	getTweets,
+	createTweet,
+};

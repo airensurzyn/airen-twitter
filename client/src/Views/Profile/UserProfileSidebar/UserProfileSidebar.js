@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '4em',
 	},
 	tweetButton: {
-		marginTop: theme.spacing(6),
+		marginTop: theme.spacing(3),
 		margin: theme.spacing(1),
 		width: '70%',
 		color: `${colors.white}`,
@@ -38,6 +38,13 @@ const useStyles = makeStyles((theme) => ({
 
 const UserProfileSidebar = (props) => {
 	const classes = useStyles();
+
+	const { handleModalOpen } = props;
+
+	const setTweetModalOpen = () => {
+		handleModalOpen();
+	};
+
 	return (
 		<Grid className={classes.root} container direction="row">
 			<Grid className={classes.optionsColumn} container direction="column">
@@ -45,7 +52,10 @@ const UserProfileSidebar = (props) => {
 					<NotLogo />
 				</Grid>
 				<SidebarList />
-				<StyledFillButton className={classes.tweetButton}>
+				<StyledFillButton
+					onClick={setTweetModalOpen}
+					className={classes.tweetButton}
+				>
 					Tweet
 				</StyledFillButton>
 			</Grid>

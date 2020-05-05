@@ -115,7 +115,7 @@ router.get(
 	'',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
-		console.log('check');
+		console.log(req);
 		try {
 			const userId = req.user.id;
 
