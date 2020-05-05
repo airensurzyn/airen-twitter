@@ -63,19 +63,25 @@ const useStyles = makeStyles((theme) => ({
 	profileTweetsSection: {
 		width: '100%',
 	},
+	usernameLabelTop: {
+		fontSize: '1rem',
+		fontWeight: 'bold',
+	},
 }));
 
 const UserProfileMain = (props) => {
 	const classes = useStyles();
 
-	const { userContext } = props;
+	const { userContext, tweetList } = props;
 	console.log(userContext);
 
 	return (
 		<Grid className={classes.root} container direction="row">
 			<Grid className={classes.mainColumn} container direction="column">
 				<div className={classes.profileTitle}>
-					<Typography>{userContext.user.data.username}</Typography>
+					<Typography className={classes.usernameLabelTop}>
+						{userContext.user.data.username}
+					</Typography>
 				</div>
 				<Divider />
 				<div className={classes.profileBackgroundImage}>
@@ -118,7 +124,7 @@ const UserProfileMain = (props) => {
 					<TweetNavbar tweetNavbarTabs={props.tweetNavbarTabs} />
 				</div>
 				<div className={classes.profileTweetsSection}>
-					<TweetList />
+					<TweetList tweetList={tweetList} />
 				</div>
 			</Grid>
 		</Grid>

@@ -19,10 +19,16 @@ const useStyles = makeStyles((theme) => ({
 		color: '#000000',
 	},
 	listText: {
-		fontSize: '1.25rem',
+		fontSize: '1.5rem',
 		fontWeight: 'bold',
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(1),
 	},
-	listIcon: { color: `${colors.black}` },
+	listIcon: {
+		color: `${colors.black}`,
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(1),
+	},
 }));
 
 const SidebarList = () => {
