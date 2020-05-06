@@ -10,9 +10,7 @@ import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-
 import { Redirect } from 'react-router-dom';
-
 import colors from '../../Styles/colors';
 
 const useStyles = makeStyles((theme) => ({

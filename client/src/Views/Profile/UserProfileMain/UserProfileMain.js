@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
 		color: '#636363',
 	},
 	profileBackgroundImage: {
-		height: '22%',
+		height: '25%',
+		maxHeight: '300px',
 		width: '100%',
 	},
 	bgImage: {
@@ -72,14 +73,14 @@ const useStyles = makeStyles((theme) => ({
 const UserProfileMain = (props) => {
 	const classes = useStyles();
 
-	const { userContext, tweetList } = props;
+	const { userContext, tweetList, profileOwner } = props;
 
 	return (
 		<Grid className={classes.root} container direction="row">
 			<Grid className={classes.mainColumn} container direction="column">
 				<div className={classes.profileTitle}>
 					<Typography className={classes.usernameLabelTop}>
-						{userContext.user.data.username}
+						{profileOwner}
 					</Typography>
 				</div>
 				<Divider />
@@ -102,7 +103,7 @@ const UserProfileMain = (props) => {
 					</div>
 					<Grid item>
 						<Typography className={classes.profileUsername}>
-							!{userContext.user.data.username}
+							!{profileOwner}
 						</Typography>
 					</Grid>
 					<Grid item>

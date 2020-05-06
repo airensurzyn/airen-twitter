@@ -8,7 +8,12 @@ import UserProfileMain from './UserProfileMain/UserProfileMain';
 import AuthNUserContext from '../../Components/Session/AuthNUserContext';
 import UserProfileRightSidebar from './UserProfileRightSidebar/UserProfileRightSidebar';
 import TweetEditor from '../../Components/Tweets/TweetEditor';
-import { getTweets, createTweet } from '../../Utils/api';
+import {
+	getTweets,
+	createTweet,
+	getUserByUsername,
+	getTweetsByUserId,
+} from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -35,18 +40,24 @@ const UserProfile = (props) => {
 	const [recentlyFetched, setRecentlyFetched] = useState(false);
 	const [newTweet, setNewTweet] = useState('');
 	const [tweetError, setTweetError] = useState({});
+	const [profileOwner, setProfileOwner] = useState('');
 
 	useEffect(() => {
-		const fetchTweets = async () => {
+		const username = props.match.params.username.toString();
+		setProfileOwner(username);
+
+		const getProfileData = async () => {
 			try {
-				let res = await getTweets();
-				setTweetList(res.data);
+				const userProfile = await getUserByUsername(username);
+				//this is bad, need to avoid making two calls here
+				const tweetList = await getTweetsByUserId(userProfile.data._id);
+				setTweetList(tweetList.data);
 			} catch (error) {
 				console.log(error);
 			}
 		};
 		if (!recentlyFetched) {
-			fetchTweets();
+			getProfileData();
 			setRecentlyFetched(true);
 		}
 	}, [recentlyFetched]);
@@ -102,6 +113,7 @@ const UserProfile = (props) => {
 						userContext={userContext}
 						tweetNavbarTabs={tweetNavbarTabs}
 						tweetList={tweetList}
+						profileOwner={profileOwner}
 					/>
 				</Grid>
 				<Grid item xs={3}>

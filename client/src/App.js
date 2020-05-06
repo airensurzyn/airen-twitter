@@ -12,7 +12,7 @@ function App() {
 		<ThemeProvider theme={theme}>
 			<BrowserRouter>
 				<Switch>
-					<Route path={['/profile']} component={UserProfile}></Route>
+					<Route path={['/profile/:username']} component={UserProfile}></Route>
 					<Route path={['/', 'login', 'register']} component={Landing}></Route>
 				</Switch>
 			</BrowserRouter>

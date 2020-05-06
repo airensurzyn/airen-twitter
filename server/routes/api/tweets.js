@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const mongoose = require('mongoose');
 
 const Tweet = require('../../models/Tweet');
 
@@ -37,6 +38,29 @@ router.get(
 			res.status(500).send();
 		}
 		res.status(200).send(results);
+	}
+);
+
+router.get(
+	'/:id',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		let userId = req.params.id;
+		if (mongoose.Types.ObjectId.isValid(userId)) {
+			userId = mongoose.Types.ObjectId(userId);
+		} else {
+			res.status(404).send({ id: `User with id ${userId} not found.` });
+			return;
+		}
+		try {
+			const tweets = await Tweet.find({ ownedBy: userId }).sort({
+				created: -1,
+			});
+			res.status(200).send(tweets);
+		} catch (errors) {
+			console.log(errors);
+			res.status(500).send({ error: error });
+		}
 	}
 );
 

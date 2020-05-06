@@ -38,7 +38,7 @@ router.post('/register', (req, res) => {
 				lastName: req.body.lastName,
 				email: req.body.email,
 				password: req.body.password,
-				username: req.body.username,
+				username: req.body.username.toLowerCase(),
 			});
 
 			bcrypt.genSalt(10, (err, salt) => {
@@ -132,6 +132,27 @@ router.get(
 			}
 		} catch (error) {
 			console.log('Error getting user: ', error);
+			res.status(500).send({ error: error });
+		}
+	}
+);
+
+router.get(
+	'/:username',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		const username = req.params.username;
+		console.log(username);
+		try {
+			const user = await User.findOne({ username: username });
+			console.log(user);
+			if (!user) {
+				res.status(404).send({ id: `User with id ${userId} is not found` });
+			} else {
+				res.status(200).send(user);
+			}
+		} catch (errors) {
+			console.log(errors);
 			res.status(500).send({ error: error });
 		}
 	}
