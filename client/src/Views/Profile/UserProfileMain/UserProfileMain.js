@@ -73,7 +73,6 @@ const UserProfileMain = (props) => {
 	const classes = useStyles();
 
 	const { userContext, tweetList } = props;
-	console.log(userContext);
 
 	return (
 		<Grid className={classes.root} container direction="row">

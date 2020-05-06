@@ -23,7 +23,6 @@ router.post('/register', (req, res) => {
 		$or: [{ email: req.body.email }, { username: req.body.username }],
 	}).then((user) => {
 		if (user) {
-			console.log(user);
 			if (user.email === req.body.email) {
 				return res.status(400).json({
 					email: 'Email already exists',
@@ -115,16 +114,13 @@ router.get(
 	'',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
-		console.log(req);
 		try {
 			const userId = req.user.id;
 
 			const user = await User.findById(userId);
 			if (!user) {
-				console.log('check');
 				res.status(404).send({ id: `User with id ${userId} is not found` });
 			} else {
-				console.log('check');
 				res.json({
 					id: user.id,
 					firstName: user.firstName,
@@ -135,7 +131,6 @@ router.get(
 				});
 			}
 		} catch (error) {
-			console.log('check');
 			console.log('Error getting user: ', error);
 			res.status(500).send({ error: error });
 		}

@@ -9,6 +9,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+
 import { Redirect } from 'react-router-dom';
 
 import colors from '../../Styles/colors';
@@ -49,8 +51,15 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(2),
 	},
 	inviteBanner: {
-		//margin: theme.spacing(4),
-		//marginRight: theme.spacing(6),
+		marginBottom: theme.spacing(4),
+		marginTop: theme.spacing(4),
+		fontSize: '1.5rem',
+		color: `${colors.white}`,
+	},
+	notIcon: {
+		height: '30px',
+		fontSize: 'large',
+		color: `${colors.white}`,
 	},
 	largeBanner: {
 		fontSize: '1.5rem',
@@ -99,7 +108,6 @@ const Login = (props) => {
 
 	//should wrap in higher order component
 	if (loggedIn) {
-		console.log(loggedInUsername);
 		const redirectUrl = '/profile/' + loggedInUsername;
 		return <Redirect to={redirectUrl} />;
 	} else {
@@ -191,6 +199,7 @@ const Login = (props) => {
 								direction="column"
 							>
 								<Grid item>
+									<PriorityHighIcon className={classes.notIcon} />
 									<img src={logo} className={classes.logo} alt="logo" />
 								</Grid>
 

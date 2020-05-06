@@ -43,7 +43,6 @@ const Landing = (props) => {
 		try {
 			await registerUser(userData);
 		} catch (error) {
-			console.log(error.response);
 			setRegisterErrors(error.response.data);
 		}
 	};

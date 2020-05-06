@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import requireAuth from '../../Components/Session/requireAuth';
-import { Grid, makeStyles, TextField } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import colors from '../../Styles/colors';
 import UserProfileSidebar from './UserProfileSidebar/UserProfileSidebar';
@@ -57,7 +57,7 @@ const UserProfile = (props) => {
 				const data = {
 					content: newTweet,
 				};
-				let res = await createTweet(data);
+				await createTweet(data);
 				setRecentlyFetched(false);
 			} catch (error) {
 				console.log(error);
