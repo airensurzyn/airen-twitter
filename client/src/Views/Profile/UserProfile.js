@@ -12,6 +12,7 @@ import {
 	createTweet,
 	getUserByUsername,
 	getTweetsByUserId,
+	uploadProfileImage,
 } from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -88,8 +89,13 @@ const UserProfile = (props) => {
 		}
 	};
 
-	const handleProfileImageUpload = (e) => {
+	const handleProfileImageUpload = async (e) => {
 		console.log(e.event.target);
+		console.log(userContext.user.data._id);
+		const res = await uploadProfileImage(
+			profileOwner,
+			userContext.user.data._id
+		);
 	};
 
 	const logout = () => {
