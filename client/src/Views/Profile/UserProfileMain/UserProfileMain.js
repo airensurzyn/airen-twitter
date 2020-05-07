@@ -3,6 +3,7 @@ import { Grid, makeStyles, Divider, Typography } from '@material-ui/core';
 import colors from '../../../Styles/colors';
 import backgroundImage from '../../../Assets/bernie_arrested.png';
 import profilePicture from '../../../Assets/profilePicture.jpg';
+import PublishIcon from '@material-ui/icons/Publish';
 
 import TweetNavbar from './TweetNavbar';
 import TweetList from './TweetList';
@@ -36,6 +37,13 @@ const useStyles = makeStyles((theme) => ({
 		maxHeight: '300px',
 		width: '100%',
 	},
+	profileBackgroundNoImage: {
+		height: '25%',
+		maxHeight: '300px',
+		width: '100%',
+		backgroundColor: '#eeeeee',
+		textAlign: 'center',
+	},
 	bgImage: {
 		width: '100%',
 		height: '100%',
@@ -56,10 +64,31 @@ const useStyles = makeStyles((theme) => ({
 		border: '3px solid #ffffff',
 		borderRadius: '50%',
 	},
+	profileImageContainerNoImage: {
+		marginTop: '-90px',
+		marginBottom: theme.spacing(2),
+		width: '140px',
+		height: '140px',
+		border: '3px solid #ffffff',
+		borderRadius: '50%',
+		backgroundColor: '#eeeeee',
+		textAlign: 'center',
+	},
 	profileImage: {
 		maxWidth: '100%',
 		maxHeight: '100%',
 		borderRadius: '50%',
+	},
+	uploadProfileImage: {
+		maxWidth: '100%',
+		width: '100%',
+		height: '100%',
+		maxHeight: '100%',
+		borderRadius: '50%',
+		backgroundColor: '#000000',
+	},
+	uploadImageLabel: {
+		top: '45%',
 	},
 	profileTweetsSection: {
 		width: '100%',
@@ -75,6 +104,77 @@ const UserProfileMain = (props) => {
 
 	const { userContext, tweetList, profileOwner } = props;
 
+	let profileImage, backgroundImageTester;
+
+	const handleUploadImage = () => {
+		console.log('clicked');
+	};
+
+	const profileImageElement = function () {
+		if (profileImage) {
+			return (
+				<div className={classes.profileImageContainer}>
+					<Grid item>
+						<img
+							src={profilePicture}
+							className={classes.profileImage}
+							alt="profile"
+						/>
+					</Grid>
+				</div>
+			);
+		} else if (
+			!profileImage &&
+			profileOwner === userContext.user.data.username
+		) {
+			return (
+				<div
+					className={classes.profileImageContainerNoImage}
+					onClick={handleUploadImage}
+				>
+					<Typography className={classes.uploadImageLabel}>
+						Upload an Image
+					</Typography>
+					<PublishIcon />
+				</div>
+			);
+		} else {
+			return (
+				<div
+					className={classes.profileImageContainerNoImage}
+					onClick={handleUploadImage}
+				></div>
+			);
+		}
+	};
+
+	const backgroundImageElement = function () {
+		if (backgroundImageTester) {
+			return (
+				<div className={classes.profileBackgroundImage}>
+					<img src={backgroundImage} className={classes.bgImage} alt="logo" />
+				</div>
+			);
+		} else if (
+			!profileImage &&
+			profileOwner === userContext.user.data.username
+		) {
+			return (
+				<div
+					className={classes.profileBackgroundNoImage}
+					onClick={handleUploadImage}
+				>
+					<Typography className={classes.uploadImageLabel}>
+						Upload an Image
+					</Typography>
+					<PublishIcon />
+				</div>
+			);
+		} else {
+			return <div className={classes.profileBackgroundNoImage}></div>;
+		}
+	};
+
 	return (
 		<Grid className={classes.root} container direction="row">
 			<Grid className={classes.mainColumn} container direction="column">
@@ -84,23 +184,13 @@ const UserProfileMain = (props) => {
 					</Typography>
 				</div>
 				<Divider />
-				<div className={classes.profileBackgroundImage}>
-					<img src={backgroundImage} className={classes.bgImage} alt="logo" />
-				</div>
+				{backgroundImageElement()}
 				<Grid
 					container
 					direction="column"
 					className={classes.profileInfoSection}
 				>
-					<div className={classes.profileImageContainer}>
-						<Grid item>
-							<img
-								src={profilePicture}
-								className={classes.profileImage}
-								alt="profile"
-							/>
-						</Grid>
-					</div>
+					{profileImageElement()}
 					<Grid item>
 						<Typography className={classes.profileUsername}>
 							!{profileOwner}

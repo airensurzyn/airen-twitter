@@ -9,7 +9,6 @@ import AuthNUserContext from '../../Components/Session/AuthNUserContext';
 import UserProfileRightSidebar from './UserProfileRightSidebar/UserProfileRightSidebar';
 import TweetEditor from '../../Components/Tweets/TweetEditor';
 import {
-	getTweets,
 	createTweet,
 	getUserByUsername,
 	getTweetsByUserId,
@@ -87,6 +86,10 @@ const UserProfile = (props) => {
 				content: 'Tweet exceeds 281 characters',
 			});
 		}
+	};
+
+	const handleProfileImageUpload = (e) => {
+		console.log(e.event.target);
 	};
 
 	const logout = () => {

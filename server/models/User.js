@@ -22,6 +22,11 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	profilePicture: {
+		data: Buffer,
+		contentType: String,
+	},
+	profileBackground: { data: Buffer, contentType: String },
 	date: {
 		type: Date,
 		default: Date.now,
