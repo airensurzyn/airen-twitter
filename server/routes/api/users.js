@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const keys = require('../../config/keys');
 const passport = require('passport');
+const multer = require('multer');
+
+const upload = multer({ destination: 'uploads/' });
 
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
@@ -133,6 +136,20 @@ router.get(
 		} catch (error) {
 			console.log('Error getting user: ', error);
 			res.status(500).send({ error: error });
+		}
+	}
+);
+
+router.post(
+	'/:id/upload',
+	upload.single('profileImage'),
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			console.log(req.file);
+			res.send();
+		} catch (error) {
+			console.log(error);
 		}
 	}
 );

@@ -9,10 +9,10 @@ import AuthNUserContext from '../../Components/Session/AuthNUserContext';
 import UserProfileRightSidebar from './UserProfileRightSidebar/UserProfileRightSidebar';
 import TweetEditor from '../../Components/Tweets/TweetEditor';
 import {
-	getTweets,
 	createTweet,
 	getUserByUsername,
 	getTweetsByUserId,
+	uploadProfileImage,
 } from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -87,6 +87,15 @@ const UserProfile = (props) => {
 				content: 'Tweet exceeds 281 characters',
 			});
 		}
+	};
+
+	const handleProfileImageUpload = async (e) => {
+		console.log(e.event.target);
+		console.log(userContext.user.data._id);
+		const res = await uploadProfileImage(
+			profileOwner,
+			userContext.user.data._id
+		);
 	};
 
 	const logout = () => {
