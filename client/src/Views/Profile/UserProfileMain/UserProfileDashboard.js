@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
+import Dropzone from 'react-dropzone';
 
 import profilePicture from '../../../Assets/profilePicture.jpg';
 
@@ -88,10 +89,30 @@ const UserProfileDashboard = (props) => {
 					className={classes.profileImageContainerNoImage}
 					onClick={handleUploadImage}
 				>
-					<Typography className={classes.uploadImageLabel}>
-						Upload an Image
-					</Typography>
-					<PublishIcon />
+					<Dropzone onDrop={(e) => this.handleFileSelect(e)}>
+						{({ getRootProps, getInputProps }) => (
+							<section className={classes.dropzone}>
+								<div {...getRootProps()}>
+									<input {...getInputProps()} />
+
+									{profileImage ? (
+										<Typography
+											style={{ color: 'black' }}
+											className={classes.fileMessage}
+										>
+											{' '}
+											{this.state.fileMessage}
+										</Typography>
+									) : (
+										<Typography className={classes.uploadImageLabel}>
+											Upload an Image
+											<PublishIcon />
+										</Typography>
+									)}
+								</div>
+							</section>
+						)}
+					</Dropzone>
 				</div>
 			);
 		} else {

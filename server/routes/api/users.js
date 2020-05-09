@@ -6,8 +6,28 @@ const keys = require('../../config/keys');
 const passport = require('passport');
 const multer = require('multer');
 
-const upload = multer({ destination: 'uploads/' });
+const path = require('path');
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, './uploads/');
+	},
+	filename: function (req, file, cb) {
+		cb(null, new Date().toISOString() + file.originalname);
+	},
+});
 
+const fileFilter = (req, file, cb) => {
+	console.log(file.mimetype);
+	cb(null, true);
+};
+
+const upload = multer({
+	storage: storage,
+	limits: {
+		filesize: 1024 * 1024 * 5,
+	},
+	fileFilter: fileFilter,
+});
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 
@@ -142,12 +162,28 @@ router.get(
 
 router.post(
 	'/:id/upload',
-	upload.single('profileImage'),
+	upload.single('file'),
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		try {
-			console.log(req.file);
-			res.send();
+			if (req.query['type'] === 'background') {
+				await User.updateOne(
+					{ _id: req.user.id },
+					{
+						profileBackground: req.file.path,
+					}
+				);
+			} else {
+				await User.updateOne(
+					{ _id: req.user.id },
+					{
+						profilePicture: req.file.path,
+					}
+				);
+			}
+			const p = path.resolve(req.file.path);
+			console.log(p);
+			res.status(200).sendFile(path.resolve('../' + req.file.path));
 		} catch (error) {
 			console.log(error);
 		}

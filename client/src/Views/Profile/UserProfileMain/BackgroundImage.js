@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import backgroundImage from '../../../Assets/bernie_arrested.png';
+import Dropzone from 'react-dropzone';
 
 import AuthNUserContext from '../../../Components/Session/AuthNUserContext';
 
@@ -22,12 +23,22 @@ const useStyles = makeStyles((theme) => ({
 		align: 'center',
 	},
 	uploadBackground: { textAlign: 'center' },
+	dropzone: {
+		width: '100%',
+		height: '100%',
+	},
 }));
 
 const BackgroundImage = (props) => {
 	const classes = useStyles();
 	let profileImage, backgroundImageTester;
 	const userContext = useContext(AuthNUserContext);
+
+	const { backgroundImageFileUpload } = props;
+
+	const handleFileSelect = (file) => {
+		backgroundImageFileUpload(file);
+	};
 
 	const { profileOwner } = props;
 
@@ -43,11 +54,31 @@ const BackgroundImage = (props) => {
 			profileOwner === userContext.user.data.username
 		) {
 			return (
-				<Grid item>
-					<Typography className={classes.uploadImageLabel}>
-						Upload an Image
-					</Typography>
-					<PublishIcon />
+				<Grid item className={classes.dropzone}>
+					<Dropzone onDrop={(e) => handleFileSelect(e)}>
+						{({ getRootProps, getInputProps }) => (
+							<section className={classes.dropzone}>
+								<div {...getRootProps()}>
+									<input {...getInputProps()} />
+
+									{profileImage ? (
+										<Typography
+											style={{ color: 'black' }}
+											className={classes.fileMessage}
+										>
+											{' '}
+											{this.state.fileMessage}
+										</Typography>
+									) : (
+										<Typography className={classes.uploadImageLabel}>
+											Upload an Image
+											<PublishIcon />
+										</Typography>
+									)}
+								</div>
+							</section>
+						)}
+					</Dropzone>
 				</Grid>
 			);
 		} else {

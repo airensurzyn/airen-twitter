@@ -28,8 +28,8 @@ const createTweet = (data) => {
 	return axios.post('/api/tweets', data);
 };
 
-const uploadProfileImage = (data, id) => {
-	return axios.post('/api/users/' + id + '/upload', data);
+const uploadUserImage = (data, id, uploadType) => {
+	return axios.post('/api/users/' + id + '/upload?type=' + uploadType, data);
 };
 
 export {
@@ -40,5 +40,5 @@ export {
 	createTweet,
 	getUserByUsername,
 	getTweetsByUserId,
-	uploadProfileImage,
+	uploadUserImage,
 };

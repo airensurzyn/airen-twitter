@@ -12,7 +12,7 @@ import {
 	createTweet,
 	getUserByUsername,
 	getTweetsByUserId,
-	uploadProfileImage,
+	uploadUserImage,
 } from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -91,11 +91,19 @@ const UserProfile = (props) => {
 
 	const handleProfileImageUpload = async (e) => {
 		console.log(e.event.target);
-		console.log(userContext.user.data._id);
-		const res = await uploadProfileImage(
-			profileOwner,
-			userContext.user.data._id
+		console.log(userContext.user.data.id);
+		const res = await uploadUserImage(profileOwner, userContext.user.data._id);
+	};
+
+	const backgroundImageFileUpload = async (file) => {
+		const data = new FormData();
+		data.append('file', file[0]);
+		const res = await uploadUserImage(
+			data,
+			userContext.user.data.id,
+			'background'
 		);
+		console.log(res);
 	};
 
 	const logout = () => {
@@ -123,6 +131,7 @@ const UserProfile = (props) => {
 						tweetNavbarTabs={tweetNavbarTabs}
 						tweetList={tweetList}
 						profileOwner={profileOwner}
+						backgroundImageFileUpload={backgroundImageFileUpload}
 					/>
 				</Grid>
 				<Grid item xs={3}>
