@@ -1,9 +1,9 @@
 import React from 'react';
 import { Grid, makeStyles, Divider, Typography } from '@material-ui/core';
 import colors from '../../../Styles/colors';
-import backgroundImage from '../../../Assets/bernie_arrested.png';
-import profilePicture from '../../../Assets/profilePicture.jpg';
-import PublishIcon from '@material-ui/icons/Publish';
+
+import BackgroundImage from './BackgroundImage';
+import UserProfileDashboard from './UserProfileDashboard';
 
 import TweetNavbar from './TweetNavbar';
 import TweetList from './TweetList';
@@ -32,64 +32,6 @@ const useStyles = makeStyles((theme) => ({
 	profileDetail: {
 		color: '#636363',
 	},
-	profileBackgroundImage: {
-		height: '25%',
-		maxHeight: '300px',
-		width: '100%',
-	},
-	profileBackgroundNoImage: {
-		height: '25%',
-		maxHeight: '300px',
-		width: '100%',
-		backgroundColor: '#eeeeee',
-		textAlign: 'center',
-	},
-	bgImage: {
-		width: '100%',
-		height: '100%',
-		maxWidth: '100%',
-		maxHeight: '100%',
-	},
-	profileInfoSection: {
-		marginTop: theme.spacing(2),
-		display: 'flex',
-		justifyContent: 'flex-start',
-		padding: '0 30px',
-	},
-	profileImageContainer: {
-		marginTop: '-90px',
-		marginBottom: theme.spacing(2),
-		width: '140px',
-		height: '140px',
-		border: '3px solid #ffffff',
-		borderRadius: '50%',
-	},
-	profileImageContainerNoImage: {
-		marginTop: '-90px',
-		marginBottom: theme.spacing(2),
-		width: '140px',
-		height: '140px',
-		border: '3px solid #ffffff',
-		borderRadius: '50%',
-		backgroundColor: '#eeeeee',
-		textAlign: 'center',
-	},
-	profileImage: {
-		maxWidth: '100%',
-		maxHeight: '100%',
-		borderRadius: '50%',
-	},
-	uploadProfileImage: {
-		maxWidth: '100%',
-		width: '100%',
-		height: '100%',
-		maxHeight: '100%',
-		borderRadius: '50%',
-		backgroundColor: '#000000',
-	},
-	uploadImageLabel: {
-		top: '45%',
-	},
 	profileTweetsSection: {
 		width: '100%',
 	},
@@ -102,78 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const UserProfileMain = (props) => {
 	const classes = useStyles();
 
-	const { userContext, tweetList, profileOwner } = props;
-
-	let profileImage, backgroundImageTester;
-
-	const handleUploadImage = () => {
-		console.log('clicked');
-	};
-
-	const profileImageElement = function () {
-		if (profileImage) {
-			return (
-				<div className={classes.profileImageContainer}>
-					<Grid item>
-						<img
-							src={profilePicture}
-							className={classes.profileImage}
-							alt="profile"
-						/>
-					</Grid>
-				</div>
-			);
-		} else if (
-			!profileImage &&
-			profileOwner === userContext.user.data.username
-		) {
-			return (
-				<div
-					className={classes.profileImageContainerNoImage}
-					onClick={handleUploadImage}
-				>
-					<Typography className={classes.uploadImageLabel}>
-						Upload an Image
-					</Typography>
-					<PublishIcon />
-				</div>
-			);
-		} else {
-			return (
-				<div
-					className={classes.profileImageContainerNoImage}
-					onClick={handleUploadImage}
-				></div>
-			);
-		}
-	};
-
-	const backgroundImageElement = function () {
-		if (backgroundImageTester) {
-			return (
-				<div className={classes.profileBackgroundImage}>
-					<img src={backgroundImage} className={classes.bgImage} alt="logo" />
-				</div>
-			);
-		} else if (
-			!profileImage &&
-			profileOwner === userContext.user.data.username
-		) {
-			return (
-				<div
-					className={classes.profileBackgroundNoImage}
-					onClick={handleUploadImage}
-				>
-					<Typography className={classes.uploadImageLabel}>
-						Upload an Image
-					</Typography>
-					<PublishIcon />
-				</div>
-			);
-		} else {
-			return <div className={classes.profileBackgroundNoImage}></div>;
-		}
-	};
+	const { tweetList, profileOwner } = props;
 
 	return (
 		<Grid className={classes.root} container direction="row">
@@ -184,38 +55,18 @@ const UserProfileMain = (props) => {
 					</Typography>
 				</div>
 				<Divider />
-				{backgroundImageElement()}
-				<Grid
-					container
-					direction="column"
-					className={classes.profileInfoSection}
-				>
-					{profileImageElement()}
-					<Grid item>
-						<Typography className={classes.profileUsername}>
-							!{profileOwner}
-						</Typography>
-					</Grid>
-					<Grid item>
-						<Typography className={classes.profileDetail}>
-							Joined : {userContext.user.data.created.slice(0, 4)}
-						</Typography>
-					</Grid>
-					<Grid item container direction="row">
-						<Typography className={classes.profileDetail}>
-							Followers:{' '}
-						</Typography>
-						<Typography className={classes.profileDetail}>
-							Followed By:
-						</Typography>
+				<Grid container direction="column" className={classes.backgroundImage}>
+					<BackgroundImage profileOwner={profileOwner} />
+				</Grid>
+				<UserProfileDashboard profileOwner={profileOwner} />
+				<Grid container className={classes.profileTweetsNavbar}>
+					<TweetNavbar tweetNavbarTabs={props.tweetNavbarTabs} />
+				</Grid>
+				<Grid container direction="row">
+					<Grid item className={classes.profileTweetsSection}>
+						<TweetList tweetList={tweetList} />
 					</Grid>
 				</Grid>
-				<div className={classes.profileTweetsNavbar}>
-					<TweetNavbar tweetNavbarTabs={props.tweetNavbarTabs} />
-				</div>
-				<div className={classes.profileTweetsSection}>
-					<TweetList tweetList={tweetList} />
-				</div>
 			</Grid>
 		</Grid>
 	);
