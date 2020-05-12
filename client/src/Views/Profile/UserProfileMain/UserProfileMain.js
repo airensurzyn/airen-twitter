@@ -44,7 +44,14 @@ const useStyles = makeStyles((theme) => ({
 const UserProfileMain = (props) => {
 	const classes = useStyles();
 
-	const { tweetList, profileOwner } = props;
+	const {
+		tweetList,
+		profileOwner,
+		backgroundImageFileUpload,
+		profileImageUpload,
+		profilePicture,
+		backgroundImage,
+	} = props;
 
 	return (
 		<Grid className={classes.root} container direction="row">
@@ -56,9 +63,17 @@ const UserProfileMain = (props) => {
 				</div>
 				<Divider />
 				<Grid container direction="column" className={classes.backgroundImage}>
-					<BackgroundImage profileOwner={profileOwner} />
+					<BackgroundImage
+						backgroundImageFileUpload={backgroundImageFileUpload}
+						backgroundImage={backgroundImage}
+						profileOwner={profileOwner}
+					/>
 				</Grid>
-				<UserProfileDashboard profileOwner={profileOwner} />
+				<UserProfileDashboard
+					profileOwner={profileOwner}
+					profilePicture={profilePicture}
+					profileImageUpload={profileImageUpload}
+				/>
 				<Grid container className={classes.profileTweetsNavbar}>
 					<TweetNavbar tweetNavbarTabs={props.tweetNavbarTabs} />
 				</Grid>

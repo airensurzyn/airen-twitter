@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const logger = require('morgan');
 const routes = require('./routes/index');
+const path = require('path');
 
 const app = express();
 
@@ -18,7 +19,10 @@ app.use(passport.initialize());
 
 require('./config/passport')(passport);
 
+app.use('/uploads', express.static('uploads'));
 app.use('/', routes);
+//app.use(express.static(path.join(__dirname, 'public')));
+//app.use('uploads', express.static('uploads'));
 
 const db = require('./config/keys').mongoURI;
 

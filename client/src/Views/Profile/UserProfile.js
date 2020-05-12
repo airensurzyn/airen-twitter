@@ -12,7 +12,8 @@ import {
 	createTweet,
 	getUserByUsername,
 	getTweetsByUserId,
-	uploadProfileImage,
+	uploadUserImage,
+	getProfilePicture,
 } from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +42,9 @@ const UserProfile = (props) => {
 	const [newTweet, setNewTweet] = useState('');
 	const [tweetError, setTweetError] = useState({});
 	const [profileOwner, setProfileOwner] = useState('');
+	const [currentProfile, setCurrentProfile] = useState({});
+	const [profilePicture, setProfilePicture] = useState('');
+	const [backgroundImage, setBackgroundImage] = useState('');
 
 	useEffect(() => {
 		const username = props.match.params.username.toString();
@@ -51,11 +55,23 @@ const UserProfile = (props) => {
 				const userProfile = await getUserByUsername(username);
 				//this is bad, need to avoid making two calls here
 				const tweetList = await getTweetsByUserId(userProfile.data._id);
+				setCurrentProfile(userProfile);
 				setTweetList(tweetList.data);
+				if (userProfile.data.profilePicture) {
+					await setProfilePicture(
+						'http://localhost:3001/' + userProfile.data.profilePicture
+					);
+				}
+				if (userProfile.data.profileBackground) {
+					await setBackgroundImage(
+						'http://localhost:3001/' + userProfile.data.profileBackground
+					);
+				}
 			} catch (error) {
 				console.log(error);
 			}
 		};
+
 		if (!recentlyFetched) {
 			getProfileData();
 			setRecentlyFetched(true);
@@ -89,13 +105,26 @@ const UserProfile = (props) => {
 		}
 	};
 
-	const handleProfileImageUpload = async (e) => {
-		console.log(e.event.target);
-		console.log(userContext.user.data._id);
-		const res = await uploadProfileImage(
-			profileOwner,
-			userContext.user.data._id
+	const profileImageUpload = async (file) => {
+		const data = new FormData();
+		data.append('file', file[0]);
+		const res = await uploadUserImage(
+			data,
+			userContext.user.data.id,
+			'profile'
 		);
+		setRecentlyFetched(false);
+	};
+
+	const backgroundImageFileUpload = async (file) => {
+		const data = new FormData();
+		data.append('file', file[0]);
+		const res = await uploadUserImage(
+			data,
+			userContext.user.data.id,
+			'background'
+		);
+		setRecentlyFetched(false);
 	};
 
 	const logout = () => {
@@ -123,6 +152,10 @@ const UserProfile = (props) => {
 						tweetNavbarTabs={tweetNavbarTabs}
 						tweetList={tweetList}
 						profileOwner={profileOwner}
+						backgroundImageFileUpload={backgroundImageFileUpload}
+						backgroundImage={backgroundImage}
+						profilePicture={profilePicture}
+						profileImageUpload={profileImageUpload}
 					/>
 				</Grid>
 				<Grid item xs={3}>
