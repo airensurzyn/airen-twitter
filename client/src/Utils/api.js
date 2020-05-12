@@ -32,6 +32,10 @@ const uploadUserImage = (data, id, uploadType) => {
 	return axios.post('/api/users/' + id + '/upload?type=' + uploadType, data);
 };
 
+const getProfilePicture = (name) => {
+	return axios.get('/' + name);
+};
+
 export {
 	registerUser,
 	loginUser,
@@ -41,4 +45,5 @@ export {
 	getUserByUsername,
 	getTweetsByUserId,
 	uploadUserImage,
+	getProfilePicture,
 };

@@ -23,26 +23,31 @@ const useStyles = makeStyles((theme) => ({
 		padding: '0 30px',
 	},
 	profileImageContainer: {
+		marginTop: '-65px',
 		marginBottom: theme.spacing(2),
+		marginLeft: theme.spacing(1),
+		position: 'relative',
 		width: '140px',
 		height: '140px',
-		border: '3px solid #ffffff',
 		borderRadius: '50%',
+		overflow: 'hidden',
+		border: '3px solid #ffffff',
+	},
+	profileImageContainerImg: {
+		width: '100%',
+		height: '100%',
+		objectFit: 'cover',
 	},
 	profileImageContainerNoImage: {
 		marginTop: '-65px',
 		marginBottom: theme.spacing(2),
+		marginLeft: theme.spacing(1),
 		width: '140px',
 		height: '140px',
 		border: '3px solid #ffffff',
 		borderRadius: '50%',
 		backgroundColor: '#eeeeee',
 		textAlign: 'center',
-	},
-	profileImage: {
-		maxWidth: '100%',
-		maxHeight: '100%',
-		borderRadius: '50%',
 	},
 	uploadProfileImage: {
 		maxWidth: '100%',
@@ -59,43 +64,40 @@ const UserProfileDashboard = (props) => {
 	const classes = useStyles();
 	const userContext = useContext(AuthNUserContext);
 
-	let profileImage;
+	const { profileOwner, profilePicture, profileImageUpload } = props;
 
-	const { profileOwner } = props;
-
-	const handleUploadImage = () => {
-		console.log('clicked');
+	const handleUploadImage = (file) => {
+		profileImageUpload(file);
 	};
 
 	const profileImageElement = function () {
-		if (profileImage) {
+		if (profilePicture) {
+			console.log(profilePicture);
 			return (
 				<div className={classes.profileImageContainer}>
-					<Grid item>
-						<img
-							src={profilePicture}
-							className={classes.profileImage}
-							alt="profile"
-						/>
-					</Grid>
+					<img
+						src={profilePicture}
+						className={classes.profileImageContainerImg}
+						alt="profile"
+					/>
 				</div>
 			);
 		} else if (
-			!profileImage &&
+			!profilePicture &&
 			profileOwner === userContext.user.data.username
 		) {
 			return (
 				<div
 					className={classes.profileImageContainerNoImage}
-					onClick={handleUploadImage}
+					//onClick={handleUploadImage}
 				>
-					<Dropzone onDrop={(e) => this.handleFileSelect(e)}>
+					<Dropzone onDrop={(e) => handleUploadImage(e)}>
 						{({ getRootProps, getInputProps }) => (
 							<section className={classes.dropzone}>
 								<div {...getRootProps()}>
 									<input {...getInputProps()} />
 
-									{profileImage ? (
+									{profilePicture ? (
 										<Typography
 											style={{ color: 'black' }}
 											className={classes.fileMessage}
@@ -119,7 +121,7 @@ const UserProfileDashboard = (props) => {
 			return (
 				<div
 					className={classes.profileImageContainerNoImage}
-					onClick={handleUploadImage}
+					//onClick={handleUploadImage}
 				></div>
 			);
 		}

@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
-import backgroundImage from '../../../Assets/bernie_arrested.png';
 import Dropzone from 'react-dropzone';
 
 import AuthNUserContext from '../../../Components/Session/AuthNUserContext';
@@ -12,9 +11,16 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		height: '30vh',
 		minHeight: '200px',
+		maxHeight: '30vh',
 		backgroundColor: '#eeeeee',
 		alignContent: 'center',
 		flexGrow: 1,
+		overflow: 'hidden',
+	},
+	bgImage: {
+		width: '100%',
+		height: '100%',
+		objectFit: 'cover',
 	},
 	uploadImageLabel: {
 		paddingTop: '60%',
@@ -26,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 	dropzone: {
 		width: '100%',
 		height: '100%',
+		objectFit: 'cover',
 	},
 }));
 
@@ -34,16 +41,14 @@ const BackgroundImage = (props) => {
 	let profileImage, backgroundImageTester;
 	const userContext = useContext(AuthNUserContext);
 
-	const { backgroundImageFileUpload } = props;
-
 	const handleFileSelect = (file) => {
 		backgroundImageFileUpload(file);
 	};
 
-	const { profileOwner } = props;
+	const { profileOwner, backgroundImage, backgroundImageFileUpload } = props;
 
 	const backgroundImageElement = () => {
-		if (backgroundImageTester) {
+		if (backgroundImage) {
 			return (
 				<div className={classes.profileBackgroundImage}>
 					<img src={backgroundImage} className={classes.bgImage} alt="logo" />

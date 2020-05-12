@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs');
 const keys = require('../../config/keys');
 const passport = require('passport');
 const multer = require('multer');
-
 const path = require('path');
+
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, './uploads/');
@@ -151,6 +151,8 @@ router.get(
 					email: user.email,
 					username: user.username,
 					created: user.date,
+					profileImage: user.profileImage,
+					profileBackground: user.profileBackground,
 				});
 			}
 		} catch (error) {
@@ -181,9 +183,7 @@ router.post(
 					}
 				);
 			}
-			const p = path.resolve(req.file.path);
-			console.log(p);
-			res.status(200).sendFile(path.resolve('../' + req.file.path));
+			res.status(200).send();
 		} catch (error) {
 			console.log(error);
 		}
