@@ -151,7 +151,7 @@ router.get(
 					email: user.email,
 					username: user.username,
 					created: user.date,
-					profileImage: user.profileImage,
+					profileImage: user.profilePicture,
 					profileBackground: user.profileBackground,
 				});
 			}

@@ -12,11 +12,15 @@ const useStyles = makeStyles((theme) => ({
 
 const TweetList = (props) => {
 	const classes = useStyles();
-	const { tweetList } = props;
+	const { tweetList, profilePicture, profileOwner } = props;
 
 	const tweets = tweetList.map((tweet) => (
 		<div>
-			<Tweet tweet={tweet} />
+			<Tweet
+				profileOwner={profileOwner}
+				tweet={tweet}
+				profilePicture={profilePicture}
+			/>
 			<Divider />
 		</div>
 	));

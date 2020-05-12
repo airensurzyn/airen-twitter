@@ -79,7 +79,11 @@ const UserProfileMain = (props) => {
 				</Grid>
 				<Grid container direction="row">
 					<Grid item className={classes.profileTweetsSection}>
-						<TweetList tweetList={tweetList} />
+						<TweetList
+							profileOwner={profileOwner}
+							profilePicture={profilePicture}
+							tweetList={tweetList}
+						/>
 					</Grid>
 				</Grid>
 			</Grid>

@@ -18,6 +18,8 @@ const withAuthentication = (Component) => {
 					axios.defaults.headers.common['Authorization'] = token;
 					try {
 						const loggedInUser = await getAuthenticatedUser();
+						loggedInUser.data.profileImage =
+							'http://localhost:3001/' + loggedInUser.data.profileImage;
 						setUser(loggedInUser);
 					} catch (error) {
 						console.log(error);

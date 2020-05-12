@@ -13,7 +13,6 @@ import {
 	getUserByUsername,
 	getTweetsByUserId,
 	uploadUserImage,
-	getProfilePicture,
 } from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +44,7 @@ const UserProfile = (props) => {
 	const [currentProfile, setCurrentProfile] = useState({});
 	const [profilePicture, setProfilePicture] = useState('');
 	const [backgroundImage, setBackgroundImage] = useState('');
+	const [loggedInUser, setLoggedInUser] = useState({});
 
 	useEffect(() => {
 		const username = props.match.params.username.toString();
@@ -58,12 +58,12 @@ const UserProfile = (props) => {
 				setCurrentProfile(userProfile);
 				setTweetList(tweetList.data);
 				if (userProfile.data.profilePicture) {
-					await setProfilePicture(
+					setProfilePicture(
 						'http://localhost:3001/' + userProfile.data.profilePicture
 					);
 				}
 				if (userProfile.data.profileBackground) {
-					await setBackgroundImage(
+					setBackgroundImage(
 						'http://localhost:3001/' + userProfile.data.profileBackground
 					);
 				}
@@ -165,6 +165,7 @@ const UserProfile = (props) => {
 			<TweetEditor
 				className={classes.composeTweetModal}
 				modalOpen={composeTweetModalOpen}
+				userContext={userContext}
 				handleModalClose={handleModalClose}
 				newTweet={newTweet}
 				postTweet={postTweet}

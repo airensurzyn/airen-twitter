@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, IconButton } from '@material-ui/core';
-import profilePicture from '../../Assets/profilePicture.jpg';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const Tweet = (props) => {
 	const classes = useStyles();
 
-	const { tweet } = props;
+	const { tweet, profilePicture, profileOwner } = props;
 
 	const formatDate = (dateString) => {
 		let date = new Date(dateString);
@@ -51,7 +50,7 @@ const Tweet = (props) => {
 			<Grid container direction="column">
 				<Grid container direction="row">
 					<Grid item>
-						<Typography className={classes.username}>!TheoWalcott14</Typography>
+						<Typography className={classes.username}>{profileOwner}</Typography>
 					</Grid>
 					<Grid item>
 						<Typography className={classes.date}>

@@ -46,7 +46,10 @@ const TweetEditor = (props) => {
 		postTweet,
 		handleTweetChange,
 		tweetError,
+		userContext,
 	} = props;
+
+	console.log(userContext.user.data.profileImage);
 
 	const setModalClose = () => {
 		handleModalClose();
@@ -73,7 +76,7 @@ const TweetEditor = (props) => {
 				<Grid className={classes.root} container direction="row">
 					<Avatar
 						alt="Profile Picture"
-						src={profilePicture}
+						src={userContext.user.data.profileImage}
 						className={classes.profileAvatar}
 					/>
 					<TextField
