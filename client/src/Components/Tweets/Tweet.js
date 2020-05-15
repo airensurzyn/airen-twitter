@@ -2,13 +2,15 @@ import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, IconButton } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
+import colors from '../../Styles/colors';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Reply from '@material-ui/icons/ChatBubbleOutline';
 import Retweet from '@material-ui/icons/Replay';
-import Like from '@material-ui/icons/FavoriteBorder';
+import LikeOutline from '@material-ui/icons/FavoriteBorder';
+import LikeFull from '@material-ui/icons/Favorite';
 import AuthNUserContext from '../Session/AuthNUserContext';
 import { postTweetLike } from '../../Utils/api';
 
@@ -28,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(10),
 		marginLeft: theme.spacing(1),
 	},
-	date: { color: '#636363', justifyContent: 'right' },
+	date: { color: `${colors.midGray}`, justifyContent: 'right' },
 	likedButtonEmpty: {
-		color: 'black',
+		color: `${colors.midGray}`,
 	},
 	likedButtonFull: {
-		color: 'red',
+		color: `${colors.likeRed}`,
 	},
 }));
 
@@ -42,6 +44,9 @@ const Tweet = (props) => {
 	const userContext = useContext(AuthNUserContext);
 
 	const [likeCount, setLikeCount] = useState(props.tweet.likedBy.length);
+	const [likeActive, setLikeActive] = useState(
+		props.tweet.likedBy.indexOf(userContext.user.data.id.toString()) !== -1
+	);
 
 	const { tweet, profilePicture, profileOwner } = props;
 
@@ -65,6 +70,8 @@ const Tweet = (props) => {
 				tweet.likedBy = [...tweet.likedBy, userContext.user.data.id];
 				setLikeCount(likes + 1);
 			}
+			setLikeActive(!likeActive);
+			console.log(tweet.likedBy);
 		} catch (error) {
 			console.log(error);
 		}
@@ -121,14 +128,12 @@ const Tweet = (props) => {
 							className={classes.tweetInteractionButton}
 							onClick={toggleTweetLike}
 						>
-							<Like
-								className={
-									tweet.likedBy.indexOf(userContext.user.data.id.toString()) !==
-									-1
-										? classes.likedButtonFull
-										: classes.likedButtonEmpty
-								}
-							/>
+							{likeActive ? (
+								<LikeFull className={classes.likedButtonFull} />
+							) : (
+								<LikeOutline className={classes.likedButtonEmpty} />
+							)}
+
 							<Typography className={classes.tweetInteractionNumber}>
 								{likeCount}
 							</Typography>
