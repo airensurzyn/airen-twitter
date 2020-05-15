@@ -42,7 +42,7 @@ const UserProfile = (props) => {
 	const [tweetError, setTweetError] = useState({});
 	const [profileOwner, setProfileOwner] = useState('');
 	const [currentProfile, setCurrentProfile] = useState({});
-	const [profilePicture, setProfilePicture] = useState('');
+	const [profilePicture, setProfilePicture] = useState('none');
 	const [backgroundImage, setBackgroundImage] = useState('');
 	const [loggedInUser, setLoggedInUser] = useState({});
 
@@ -61,11 +61,15 @@ const UserProfile = (props) => {
 					setProfilePicture(
 						'http://localhost:3001/' + userProfile.data.profilePicture
 					);
+				} else {
+					setProfilePicture(null);
 				}
 				if (userProfile.data.profileBackground) {
 					setBackgroundImage(
 						'http://localhost:3001/' + userProfile.data.profileBackground
 					);
+				} else {
+					setBackgroundImage(null);
 				}
 			} catch (error) {
 				console.log(error);

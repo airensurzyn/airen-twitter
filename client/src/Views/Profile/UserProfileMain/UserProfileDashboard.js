@@ -83,7 +83,8 @@ const UserProfileDashboard = (props) => {
 			);
 		} else if (
 			!profilePicture &&
-			profileOwner === userContext.user.data.username
+			profileOwner === userContext.user.data.username &&
+			profilePicture !== 'none'
 		) {
 			return (
 				<div
