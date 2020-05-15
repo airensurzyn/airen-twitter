@@ -34,6 +34,7 @@ const tweetNavbarTabs = ['Tweets', 'Likes'];
 const UserProfile = (props) => {
 	const classes = useStyles();
 	const userContext = useContext(AuthNUserContext);
+	const socket = userContext.socket;
 
 	const [composeTweetModalOpen, setComposeTweetModalOpen] = useState(false);
 	const [tweetList, setTweetList] = useState([]);
@@ -42,9 +43,10 @@ const UserProfile = (props) => {
 	const [tweetError, setTweetError] = useState({});
 	const [profileOwner, setProfileOwner] = useState('');
 	const [currentProfile, setCurrentProfile] = useState({});
-	const [profilePicture, setProfilePicture] = useState('none');
+	const [profilePicture, setProfilePicture] = useState('');
 	const [backgroundImage, setBackgroundImage] = useState('');
 	const [loggedInUser, setLoggedInUser] = useState({});
+	const [notifications, setNotifications] = useState([]);
 
 	useEffect(() => {
 		const username = props.match.params.username.toString();
@@ -75,6 +77,14 @@ const UserProfile = (props) => {
 				console.log(error);
 			}
 		};
+
+		if (socket) {
+			socket.on('tweet liked', (data) => {
+				let notificationList = [...notifications, data];
+				setNotifications(notificationList);
+				console.log(notificationList);
+			});
+		}
 
 		if (!recentlyFetched) {
 			getProfileData();
@@ -107,6 +117,11 @@ const UserProfile = (props) => {
 				content: 'Tweet exceeds 281 characters',
 			});
 		}
+	};
+
+	const handleNotificationsClick = () => {
+		console.log('clear');
+		setNotifications([]);
 	};
 
 	const profileImageUpload = async (file) => {
@@ -148,7 +163,11 @@ const UserProfile = (props) => {
 		<CssBaseline>
 			<Grid className={classes.root} container direction="row">
 				<Grid item xs={3} className={classes.sidebar}>
-					<UserProfileSidebar handleModalOpen={handleModalOpen} />
+					<UserProfileSidebar
+						notifications={notifications}
+						handleModalOpen={handleModalOpen}
+						handleNotificationsClick={handleNotificationsClick}
+					/>
 				</Grid>
 				<Grid item xs={6}>
 					<UserProfileMain

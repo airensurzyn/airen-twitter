@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const mongoose = require('mongoose');
+const socketApi = require('../../sockets/socketNotificationApi');
 
 const Tweet = require('../../models/Tweet');
 
@@ -82,24 +83,26 @@ router.post(
 			const index = likedBy.indexOf(userId);
 
 			if (index !== -1) {
-				console.log('unlike');
-				console.log(index);
 				likedBy.splice(index, 1);
-				console.log(likedBy);
 				await Tweet.updateOne(
 					{ _id: tweetId },
 					{
 						likedBy: likedBy,
 					}
 				);
+				//don't emit like notification if unliking
 			} else {
-				console.log('like');
 				likedBy = [...tweet.likedBy, userId];
 				await Tweet.updateOne(
 					{ _id: tweetId },
 					{
 						likedBy: likedBy,
 					}
+				);
+				socketApi.emitTweetLikeNotification(
+					tweet.ownedBy,
+					req.user.username,
+					tweetId
 				);
 			}
 			res.status(200).send();
