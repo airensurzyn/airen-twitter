@@ -34,6 +34,7 @@ const tweetNavbarTabs = ['Tweets', 'Likes'];
 const UserProfile = (props) => {
 	const classes = useStyles();
 	const userContext = useContext(AuthNUserContext);
+	const socket = userContext.socket;
 
 	const [composeTweetModalOpen, setComposeTweetModalOpen] = useState(false);
 	const [tweetList, setTweetList] = useState([]);
@@ -44,7 +45,7 @@ const UserProfile = (props) => {
 	const [currentProfile, setCurrentProfile] = useState({});
 	const [profilePicture, setProfilePicture] = useState('');
 	const [backgroundImage, setBackgroundImage] = useState('');
-	const [loggedInUser, setLoggedInUser] = useState({});
+	const [notifications, setNotifications] = useState([]);
 
 	useEffect(() => {
 		const username = props.match.params.username.toString();
@@ -61,16 +62,27 @@ const UserProfile = (props) => {
 					setProfilePicture(
 						'http://localhost:3001/' + userProfile.data.profilePicture
 					);
+				} else {
+					setProfilePicture(null);
 				}
 				if (userProfile.data.profileBackground) {
 					setBackgroundImage(
 						'http://localhost:3001/' + userProfile.data.profileBackground
 					);
+				} else {
+					setBackgroundImage(null);
 				}
 			} catch (error) {
 				console.log(error);
 			}
 		};
+
+		if (socket) {
+			socket.on('tweet liked', (data) => {
+				let notificationList = [...notifications, data];
+				setNotifications(notificationList);
+			});
+		}
 
 		if (!recentlyFetched) {
 			getProfileData();
@@ -105,25 +117,22 @@ const UserProfile = (props) => {
 		}
 	};
 
+	const handleNotificationsClick = () => {
+		console.log('clear');
+		setNotifications([]);
+	};
+
 	const profileImageUpload = async (file) => {
 		const data = new FormData();
 		data.append('file', file[0]);
-		const res = await uploadUserImage(
-			data,
-			userContext.user.data.id,
-			'profile'
-		);
+		await uploadUserImage(data, userContext.user.data.id, 'profile');
 		setRecentlyFetched(false);
 	};
 
 	const backgroundImageFileUpload = async (file) => {
 		const data = new FormData();
 		data.append('file', file[0]);
-		const res = await uploadUserImage(
-			data,
-			userContext.user.data.id,
-			'background'
-		);
+		await uploadUserImage(data, userContext.user.data.id, 'background');
 		setRecentlyFetched(false);
 	};
 
@@ -144,7 +153,11 @@ const UserProfile = (props) => {
 		<CssBaseline>
 			<Grid className={classes.root} container direction="row">
 				<Grid item xs={3} className={classes.sidebar}>
-					<UserProfileSidebar handleModalOpen={handleModalOpen} />
+					<UserProfileSidebar
+						notifications={notifications}
+						handleModalOpen={handleModalOpen}
+						handleNotificationsClick={handleNotificationsClick}
+					/>
 				</Grid>
 				<Grid item xs={6}>
 					<UserProfileMain

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAuthenticatedUser } from '../../Utils/api';
+import connect from '../../Utils/socket/socket';
 
 import AuthNUserContext from './AuthNUserContext';
 import axios from 'axios';
@@ -10,6 +11,7 @@ const withAuthentication = (Component) => {
 
 		const [token, setToken] = useState(prevToken);
 		const [user, setUser] = useState(null);
+		const [socket, setSocket] = useState(null);
 
 		useEffect(() => {
 			const getCurrentUser = async () => {
@@ -21,6 +23,7 @@ const withAuthentication = (Component) => {
 						loggedInUser.data.profileImage =
 							'http://localhost:3001/' + loggedInUser.data.profileImage;
 						setUser(loggedInUser);
+						setSocket(connect(loggedInUser.data.id));
 					} catch (error) {
 						console.log(error);
 					}
@@ -41,6 +44,7 @@ const withAuthentication = (Component) => {
 			setToken,
 			user,
 			logout,
+			socket,
 		};
 
 		return (

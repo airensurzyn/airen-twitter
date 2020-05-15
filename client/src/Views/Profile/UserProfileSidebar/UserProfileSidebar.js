@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const UserProfileSidebar = (props) => {
 	const classes = useStyles();
 
-	const { handleModalOpen } = props;
+	const { handleModalOpen, notifications, handleNotificationsClick } = props;
 
 	const setTweetModalOpen = () => {
 		handleModalOpen();
@@ -51,7 +51,10 @@ const UserProfileSidebar = (props) => {
 				<Grid item className="classes.logoBanner">
 					<NotLogo />
 				</Grid>
-				<SidebarList />
+				<SidebarList
+					handleNotificationsClick={handleNotificationsClick}
+					notifications={notifications}
+				/>
 				<StyledFillButton
 					onClick={setTweetModalOpen}
 					className={classes.tweetButton}

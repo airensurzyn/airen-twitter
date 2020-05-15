@@ -5,7 +5,6 @@ import NotificationIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import MessagesIcon from '@material-ui/icons/MailOutlineOutlined';
 import PersonIcon from '@material-ui/icons/Person';
 import colors from '../../../Styles/colors';
-
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -28,11 +27,25 @@ const useStyles = makeStyles((theme) => ({
 		color: `${colors.black}`,
 		marginTop: theme.spacing(1),
 		marginBottom: theme.spacing(1),
+		paddingRight: 0,
+		contentAlign: 'center',
+	},
+	listIconActive: {
+		color: `${colors.white}`,
+		backgroundColor: `${colors.lightBlue}`,
+		borderRadius: '50%',
+		paddingRight: 0,
+		contentAlign: 'center',
 	},
 }));
 
-const SidebarList = () => {
+const SidebarList = (props) => {
 	const classes = useStyles();
+	const { notifications, handleNotificationsClick } = props;
+
+	const submitNotificationsClick = () => {
+		handleNotificationsClick();
+	};
 
 	return (
 		<div className={classes.root}>
@@ -47,8 +60,14 @@ const SidebarList = () => {
 						primary="Home"
 					/>
 				</ListItem>
-				<ListItem button disableRipple>
-					<ListItemIcon className={classes.listIcon}>
+				<ListItem button disableRipple onClick={submitNotificationsClick}>
+					<ListItemIcon
+						className={
+							notifications.length !== 0
+								? classes.listIconActive
+								: classes.listIcon
+						}
+					>
 						<NotificationIcon />
 					</ListItemIcon>
 					<ListItemText
