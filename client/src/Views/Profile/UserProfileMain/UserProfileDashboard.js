@@ -72,7 +72,6 @@ const UserProfileDashboard = (props) => {
 
 	const profileImageElement = function () {
 		if (profilePicture) {
-			console.log(profilePicture);
 			return (
 				<div className={classes.profileImageContainer}>
 					<img

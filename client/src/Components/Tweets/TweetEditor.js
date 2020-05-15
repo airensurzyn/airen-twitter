@@ -49,8 +49,6 @@ const TweetEditor = (props) => {
 		userContext,
 	} = props;
 
-	console.log(userContext.user.data.profileImage);
-
 	const setModalClose = () => {
 		handleModalClose();
 	};

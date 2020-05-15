@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, IconButton } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Reply from '@material-ui/icons/ChatBubbleOutline';
 import Retweet from '@material-ui/icons/Replay';
 import Like from '@material-ui/icons/FavoriteBorder';
+import AuthNUserContext from '../Session/AuthNUserContext';
+import { postTweetLike } from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
 	root: { flexGrow: 1 },
@@ -27,10 +29,19 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(1),
 	},
 	date: { color: '#636363', justifyContent: 'right' },
+	likedButtonEmpty: {
+		color: 'black',
+	},
+	likedButtonFull: {
+		color: 'red',
+	},
 }));
 
 const Tweet = (props) => {
 	const classes = useStyles();
+	const userContext = useContext(AuthNUserContext);
+
+	const [likeCount, setLikeCount] = useState(props.tweet.likedBy.length);
 
 	const { tweet, profilePicture, profileOwner } = props;
 
@@ -40,6 +51,23 @@ const Tweet = (props) => {
 		const month = date[1];
 		const day = Number.parseInt(date[2]);
 		return `${month} ${day}`;
+	};
+
+	const toggleTweetLike = async () => {
+		try {
+			const res = await postTweetLike(tweet._id);
+			let likes = likeCount;
+			let index = tweet.likedBy.indexOf(userContext.user.data.id.toString());
+			if (index !== -1) {
+				setLikeCount(likes - 1);
+				tweet.likedBy.splice(tweet.likedBy[userContext.user.data.id], 1);
+			} else {
+				tweet.likedBy = [...tweet.likedBy, userContext.user.data.id];
+				setLikeCount(likes + 1);
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -91,10 +119,18 @@ const Tweet = (props) => {
 						<IconButton
 							disableRipple
 							className={classes.tweetInteractionButton}
+							onClick={toggleTweetLike}
 						>
-							<Like />
+							<Like
+								className={
+									tweet.likedBy.indexOf(userContext.user.data.id.toString()) !==
+									-1
+										? classes.likedButtonFull
+										: classes.likedButtonEmpty
+								}
+							/>
 							<Typography className={classes.tweetInteractionNumber}>
-								0
+								{likeCount}
 							</Typography>
 						</IconButton>
 					</Grid>

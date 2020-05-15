@@ -64,4 +64,49 @@ router.get(
 	}
 );
 
+router.post(
+	'/:id/like',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		let tweetId = req.params.id;
+		let userId = req.user.id;
+		if (mongoose.Types.ObjectId.isValid(tweetId)) {
+			tweetId = mongoose.Types.ObjectId(tweetId);
+		} else {
+			res.status(404).send({ id: `Tweet with id ${tweetId} not found.` });
+			return;
+		}
+		try {
+			const tweet = await Tweet.findOne({ _id: tweetId });
+			let { likedBy } = tweet;
+			const index = likedBy.indexOf(userId);
+
+			if (index !== -1) {
+				console.log('unlike');
+				console.log(index);
+				likedBy.splice(index, 1);
+				console.log(likedBy);
+				await Tweet.updateOne(
+					{ _id: tweetId },
+					{
+						likedBy: likedBy,
+					}
+				);
+			} else {
+				console.log('like');
+				likedBy = [...tweet.likedBy, userId];
+				await Tweet.updateOne(
+					{ _id: tweetId },
+					{
+						likedBy: likedBy,
+					}
+				);
+			}
+			res.status(200).send();
+		} catch (error) {
+			console.log(error);
+		}
+	}
+);
+
 module.exports = router;
