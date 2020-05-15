@@ -17,7 +17,6 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-	console.log(file.mimetype);
 	cb(null, true);
 };
 
@@ -195,10 +194,8 @@ router.get(
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		const username = req.params.username;
-		console.log(username);
 		try {
 			const user = await User.findOne({ username: username });
-			console.log(user);
 			if (!user) {
 				res.status(404).send({ id: `User with id ${userId} is not found` });
 			} else {
