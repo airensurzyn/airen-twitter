@@ -45,7 +45,6 @@ const UserProfile = (props) => {
 	const [currentProfile, setCurrentProfile] = useState({});
 	const [profilePicture, setProfilePicture] = useState('');
 	const [backgroundImage, setBackgroundImage] = useState('');
-	const [loggedInUser, setLoggedInUser] = useState({});
 	const [notifications, setNotifications] = useState([]);
 
 	useEffect(() => {
@@ -82,7 +81,6 @@ const UserProfile = (props) => {
 			socket.on('tweet liked', (data) => {
 				let notificationList = [...notifications, data];
 				setNotifications(notificationList);
-				console.log(notificationList);
 			});
 		}
 
@@ -127,22 +125,14 @@ const UserProfile = (props) => {
 	const profileImageUpload = async (file) => {
 		const data = new FormData();
 		data.append('file', file[0]);
-		const res = await uploadUserImage(
-			data,
-			userContext.user.data.id,
-			'profile'
-		);
+		await uploadUserImage(data, userContext.user.data.id, 'profile');
 		setRecentlyFetched(false);
 	};
 
 	const backgroundImageFileUpload = async (file) => {
 		const data = new FormData();
 		data.append('file', file[0]);
-		const res = await uploadUserImage(
-			data,
-			userContext.user.data.id,
-			'background'
-		);
+		await uploadUserImage(data, userContext.user.data.id, 'background');
 		setRecentlyFetched(false);
 	};
 

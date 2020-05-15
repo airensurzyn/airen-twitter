@@ -4,8 +4,6 @@ import { Grid, Typography } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import Dropzone from 'react-dropzone';
 
-import profilePicture from '../../../Assets/profilePicture.jpg';
-
 import AuthNUserContext from '../../../Components/Session/AuthNUserContext';
 
 const useStyles = makeStyles((theme) => ({
