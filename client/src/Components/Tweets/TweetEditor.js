@@ -3,7 +3,6 @@ import { Dialog, Grid, Divider, TextField, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import colors from '../../Styles/colors';
 import CloseIcon from '@material-ui/icons/Close';
-import profilePicture from '../../Assets/profilePicture.jpg';
 import StyledFillButton from '../Buttons/StyledFillButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,8 +47,6 @@ const TweetEditor = (props) => {
 		tweetError,
 		userContext,
 	} = props;
-
-	console.log(userContext.user.data.profileImage);
 
 	const setModalClose = () => {
 		handleModalClose();

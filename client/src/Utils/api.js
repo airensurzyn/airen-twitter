@@ -36,6 +36,10 @@ const getProfilePicture = (name) => {
 	return axios.get('/' + name);
 };
 
+const postTweetLike = (tweetId) => {
+	return axios.post('/api/tweets/' + tweetId + '/like');
+};
+
 export {
 	registerUser,
 	loginUser,
@@ -46,4 +50,5 @@ export {
 	getTweetsByUserId,
 	uploadUserImage,
 	getProfilePicture,
+	postTweetLike,
 };

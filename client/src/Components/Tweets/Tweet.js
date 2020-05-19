@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, IconButton } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
+import colors from '../../Styles/colors';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Reply from '@material-ui/icons/ChatBubbleOutline';
 import Retweet from '@material-ui/icons/Replay';
-import Like from '@material-ui/icons/FavoriteBorder';
+import LikeOutline from '@material-ui/icons/FavoriteBorder';
+import LikeFull from '@material-ui/icons/Favorite';
+import AuthNUserContext from '../Session/AuthNUserContext';
+import { postTweetLike } from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
 	root: { flexGrow: 1 },
@@ -26,11 +30,23 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(10),
 		marginLeft: theme.spacing(1),
 	},
-	date: { color: '#636363', justifyContent: 'right' },
+	date: { color: `${colors.midGray}`, justifyContent: 'right' },
+	likedButtonEmpty: {
+		color: `${colors.midGray}`,
+	},
+	likedButtonFull: {
+		color: `${colors.likeRed}`,
+	},
 }));
 
 const Tweet = (props) => {
 	const classes = useStyles();
+	const userContext = useContext(AuthNUserContext);
+
+	const [likeCount, setLikeCount] = useState(props.tweet.likedBy.length);
+	const [likeActive, setLikeActive] = useState(
+		props.tweet.likedBy.indexOf(userContext.user.data.id.toString()) !== -1
+	);
 
 	const { tweet, profilePicture, profileOwner } = props;
 
@@ -40,6 +56,28 @@ const Tweet = (props) => {
 		const month = date[1];
 		const day = Number.parseInt(date[2]);
 		return `${month} ${day}`;
+	};
+
+	const toggleTweetLike = async () => {
+		try {
+			console.log(tweet.likedBy);
+			await postTweetLike(tweet._id);
+			let likes = likeCount;
+			let index = tweet.likedBy.indexOf(userContext.user.data.id.toString());
+			console.log(userContext.user.data.id.toString());
+			console.log(index);
+			if (index !== -1) {
+				setLikeCount(likes - 1);
+				tweet.likedBy.splice(index, 1);
+			} else {
+				tweet.likedBy = [...tweet.likedBy, userContext.user.data.id];
+				setLikeCount(likes + 1);
+			}
+			setLikeActive(!likeActive);
+			console.log(tweet.likedBy);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -91,10 +129,16 @@ const Tweet = (props) => {
 						<IconButton
 							disableRipple
 							className={classes.tweetInteractionButton}
+							onClick={toggleTweetLike}
 						>
-							<Like />
+							{likeActive ? (
+								<LikeFull className={classes.likedButtonFull} />
+							) : (
+								<LikeOutline className={classes.likedButtonEmpty} />
+							)}
+
 							<Typography className={classes.tweetInteractionNumber}>
-								0
+								{likeCount}
 							</Typography>
 						</IconButton>
 					</Grid>

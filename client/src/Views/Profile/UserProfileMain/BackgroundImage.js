@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	uploadImageLabel: {
 		paddingTop: '60%',
-		align: 'center',
 		flexGrow: 1,
 		align: 'center',
 	},
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const BackgroundImage = (props) => {
 	const classes = useStyles();
-	let profileImage, backgroundImageTester;
+	let profileImage;
 	const userContext = useContext(AuthNUserContext);
 
 	const handleFileSelect = (file) => {

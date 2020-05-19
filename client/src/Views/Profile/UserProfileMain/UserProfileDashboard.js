@@ -4,8 +4,6 @@ import { Grid, Typography } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import Dropzone from 'react-dropzone';
 
-import profilePicture from '../../../Assets/profilePicture.jpg';
-
 import AuthNUserContext from '../../../Components/Session/AuthNUserContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -72,7 +70,6 @@ const UserProfileDashboard = (props) => {
 
 	const profileImageElement = function () {
 		if (profilePicture) {
-			console.log(profilePicture);
 			return (
 				<div className={classes.profileImageContainer}>
 					<img
@@ -84,7 +81,8 @@ const UserProfileDashboard = (props) => {
 			);
 		} else if (
 			!profilePicture &&
-			profileOwner === userContext.user.data.username
+			profileOwner === userContext.user.data.username &&
+			profilePicture !== 'none'
 		) {
 			return (
 				<div
