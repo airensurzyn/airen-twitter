@@ -11,12 +11,15 @@ NodeJS
 ExpressJS
 MongoDB
 
-
 # Current Working features
-## Login -  using Passport JWT
+
+## Login - using Passport JWT
 
 ![](/.readme/login.gif)
 
+## Profile Customization - Image Upload
+
+![](/.readme/imageUpload.gif)
 
 ## Tweet
 
