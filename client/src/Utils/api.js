@@ -5,23 +5,34 @@ const registerUser = (data) => {
 };
 
 const loginUser = (data) => {
-	return axios.post('/api/users/login', data);
+	return axios.post(
+		'https://api-dot-not-twitter-acs.uk.r.appspot.com/api/users/login',
+		data
+	);
 };
 
 const getAuthenticatedUser = () => {
-	return axios.get('/api/users');
+	return axios.get(
+		'https://api-dot-not-twitter-acs.uk.r.appspot.com/api/users'
+	);
 };
 
 const getUserByUsername = (username) => {
-	return axios.get('/api/users/' + username);
+	return axios.get(
+		'https://api-dot-not-twitter-acs.uk.r.appspot.com/api/users/' + username
+	);
 };
 
 const getTweets = () => {
-	return axios.get('/api/tweets');
+	return axios.get(
+		'https://api-dot-not-twitter-acs.uk.r.appspot.com/api/tweets'
+	);
 };
 
 const getTweetsByUserId = (id) => {
-	return axios.get('/api/tweets/' + id);
+	return axios.get(
+		'https://api-dot-not-twitter-acs.uk.r.appspot.com/api/tweets/' + id
+	);
 };
 
 const createTweet = (data) => {
@@ -33,7 +44,7 @@ const uploadUserImage = (data, id, uploadType) => {
 };
 
 const getProfilePicture = (name) => {
-	return axios.get('/' + name);
+	return axios.get('https://api-dot-not-twitter-acs.uk.r.appspot.com/' + name);
 };
 
 const postTweetLike = (tweetId) => {
