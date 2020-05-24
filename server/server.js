@@ -21,8 +21,6 @@ require('./config/passport')(passport);
 
 app.use('/uploads', express.static('uploads'));
 app.use('/', routes);
-//app.use(express.static(path.join(__dirname, 'public')));
-//app.use('uploads', express.static('uploads'));
 
 const db = require('./config/keys').mongoURI;
 

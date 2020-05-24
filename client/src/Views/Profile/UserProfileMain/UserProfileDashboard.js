@@ -136,7 +136,7 @@ const UserProfileDashboard = (props) => {
 				</Grid>
 				<Grid item>
 					<Typography className={classes.profileDetail}>
-						Joined : {userContext.user.data.created.slice(0, 4)}
+						Joined : {userContext.user.data.date.slice(0, 4)}
 					</Typography>
 				</Grid>
 				<Grid item container direction="row">

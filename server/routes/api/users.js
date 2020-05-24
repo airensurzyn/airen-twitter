@@ -7,6 +7,10 @@ const passport = require('passport');
 const multer = require('multer');
 const path = require('path');
 
+var redis = require('redis');
+const REDIS_PORT = process.env.port || 6379;
+const redisClient = redis.createClient(REDIS_PORT);
+
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, './uploads/');
@@ -139,17 +143,31 @@ router.get(
 		try {
 			const userId = req.user.id;
 
+			/*redisClient.get(userId, (err, data) => {
+				if (err) {
+					throw err;
+				}
+
+				if (data !== null) {
+					res.send(JSON.parse(data));
+				} else {
+					//next();
+				}
+			});*/
+
 			const user = await User.findById(userId);
 			if (!user) {
 				res.status(404).send({ id: `User with id ${userId} is not found` });
 			} else {
+				const cachedUser = JSON.stringify(user);
+				redisClient.setex(userId, 3600, cachedUser);
 				res.json({
-					id: user.id,
+					_id: user.id,
 					firstName: user.firstName,
 					lastName: user.lastName,
 					email: user.email,
 					username: user.username,
-					created: user.date,
+					date: user.date,
 					profileImage: user.profilePicture,
 					profileBackground: user.profileBackground,
 				});
