@@ -45,8 +45,9 @@ const Tweet = (props) => {
 
 	const [likeCount, setLikeCount] = useState(props.tweet.likedBy.length);
 	const [likeActive, setLikeActive] = useState(
-		props.tweet.likedBy.indexOf(userContext.user.data.id.toString()) !== -1
+		props.tweet.likedBy.indexOf(userContext.user.data._id.toString()) !== -1
 	);
+	console.log(userContext);
 
 	const { tweet, profilePicture, profileOwner } = props;
 
@@ -65,7 +66,6 @@ const Tweet = (props) => {
 			let likes = likeCount;
 			let index = tweet.likedBy.indexOf(userContext.user.data.id.toString());
 			console.log(userContext.user.data.id.toString());
-			console.log(index);
 			if (index !== -1) {
 				setLikeCount(likes - 1);
 				tweet.likedBy.splice(index, 1);
