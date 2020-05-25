@@ -46,19 +46,21 @@ const UserProfileMain = (props) => {
 
 	const {
 		tweetList,
-		profileOwner,
+		currentProfile,
 		backgroundImageFileUpload,
 		profileImageUpload,
 		profilePicture,
 		backgroundImage,
 	} = props;
 
+	console.log(currentProfile);
+
 	return (
 		<Grid className={classes.root} container direction="row">
 			<Grid className={classes.mainColumn} container direction="column">
 				<div className={classes.profileTitle}>
 					<Typography className={classes.usernameLabelTop}>
-						{profileOwner}
+						{currentProfile.data ? currentProfile.data.username : ''}
 					</Typography>
 				</div>
 				<Divider />
@@ -66,11 +68,13 @@ const UserProfileMain = (props) => {
 					<BackgroundImage
 						backgroundImageFileUpload={backgroundImageFileUpload}
 						backgroundImage={backgroundImage}
-						profileOwner={profileOwner}
+						profileOwner={
+							currentProfile.data ? currentProfile.data.username : ''
+						}
 					/>
 				</Grid>
 				<UserProfileDashboard
-					profileOwner={profileOwner}
+					profileOwner={currentProfile.data ? currentProfile.data.username : ''}
 					profilePicture={profilePicture}
 					profileImageUpload={profileImageUpload}
 				/>
@@ -80,7 +84,9 @@ const UserProfileMain = (props) => {
 				<Grid container direction="row">
 					<Grid item className={classes.profileTweetsSection}>
 						<TweetList
-							profileOwner={profileOwner}
+							profileOwner={
+								currentProfile.data ? currentProfile.data.username : ''
+							}
 							profilePicture={profilePicture}
 							tweetList={tweetList}
 						/>
