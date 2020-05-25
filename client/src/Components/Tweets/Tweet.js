@@ -47,7 +47,6 @@ const Tweet = (props) => {
 	const [likeActive, setLikeActive] = useState(
 		props.tweet.likedBy.indexOf(userContext.user.data._id.toString()) !== -1
 	);
-	console.log(userContext);
 
 	const { tweet, profilePicture, profileOwner } = props;
 

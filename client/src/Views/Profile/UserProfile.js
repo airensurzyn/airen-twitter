@@ -36,12 +36,15 @@ const UserProfile = (props) => {
 	const userContext = useContext(AuthNUserContext);
 	const socket = userContext.socket;
 
-	const [composeTweetModalOpen, setComposeTweetModalOpen] = useState(false);
-	const [tweetList, setTweetList] = useState([]);
 	const [recentlyFetched, setRecentlyFetched] = useState(false);
+
+	//tweet creation
+	const [composeTweetModalOpen, setComposeTweetModalOpen] = useState(false);
 	const [newTweet, setNewTweet] = useState('');
 	const [tweetError, setTweetError] = useState({});
-	const [profileOwner, setProfileOwner] = useState('');
+
+	//profile info retrieval
+	const [tweetList, setTweetList] = useState([]);
 	const [currentProfile, setCurrentProfile] = useState({});
 	const [profilePicture, setProfilePicture] = useState('');
 	const [backgroundImage, setBackgroundImage] = useState('');
@@ -49,7 +52,6 @@ const UserProfile = (props) => {
 
 	useEffect(() => {
 		const username = props.match.params.username.toString();
-		setProfileOwner(username);
 
 		const getProfileData = async () => {
 			try {
@@ -164,7 +166,7 @@ const UserProfile = (props) => {
 						userContext={userContext}
 						tweetNavbarTabs={tweetNavbarTabs}
 						tweetList={tweetList}
-						profileOwner={profileOwner}
+						currentProfile={currentProfile}
 						backgroundImageFileUpload={backgroundImageFileUpload}
 						backgroundImage={backgroundImage}
 						profilePicture={profilePicture}
@@ -179,11 +181,11 @@ const UserProfile = (props) => {
 				className={classes.composeTweetModal}
 				modalOpen={composeTweetModalOpen}
 				userContext={userContext}
-				handleModalClose={handleModalClose}
 				newTweet={newTweet}
+				tweetError={tweetError}
+				handleModalClose={handleModalClose}
 				postTweet={postTweet}
 				handleTweetChange={handleTweetChange}
-				tweetError={tweetError}
 			/>
 		</CssBaseline>
 	);
