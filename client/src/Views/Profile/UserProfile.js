@@ -81,8 +81,10 @@ const UserProfile = (props) => {
 
 		if (socket) {
 			socket.on('tweet liked', (data) => {
-				let notificationList = [...notifications, data];
-				setNotifications(notificationList);
+				if (data.username !== userContext.user.data.username) {
+					let notificationList = [...notifications, data];
+					setNotifications(notificationList);
+				}
 			});
 		}
 
@@ -120,7 +122,6 @@ const UserProfile = (props) => {
 	};
 
 	const handleNotificationsClick = () => {
-		console.log('clear');
 		setNotifications([]);
 	};
 

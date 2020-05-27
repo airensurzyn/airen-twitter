@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	listIconActive: {
 		color: `${colors.white}`,
 		backgroundColor: `${colors.lightBlue}`,
-		borderRadius: '50%',
+		//borderRadius: '50%',
 		paddingRight: 0,
 		contentAlign: 'center',
 	},

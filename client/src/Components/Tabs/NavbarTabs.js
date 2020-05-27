@@ -16,7 +16,6 @@ const NavbarTabs = withStyles({
 		backgroundColor: `${colors.lightBlue}`,
 		height: 2,
 	},
-	checked: {},
 })((props) => <Tabs color="default" {...props} />);
 
 export default NavbarTabs;

@@ -15,7 +15,7 @@ const TweetList = (props) => {
 	const { tweetList, profilePicture, profileOwner } = props;
 
 	const tweets = tweetList.map((tweet) => (
-		<div>
+		<div key={tweet._id}>
 			<Tweet
 				profileOwner={profileOwner}
 				tweet={tweet}

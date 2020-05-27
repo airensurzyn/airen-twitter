@@ -14,9 +14,9 @@ socketApi.io.on('connect', (socket) => {
 });
 
 socketApi.emitTweetLikeNotification = (ownedBy, username, tweetId) => {
+	console.log('emitting tweet like1');
 	const socket = socketApi.sockets.find((curr) => curr.userId == ownedBy);
 	if (socket) {
-		console.log('emitting tweet like');
 		socket.emit('tweet liked', { username, tweetId });
 	} //else you want to set a notification for the user, but don't need to emit the event
 };

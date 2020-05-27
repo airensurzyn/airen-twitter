@@ -96,12 +96,7 @@ const Tweet = (props) => {
 					</Grid>
 				</Grid>
 				<ListItemText>{tweet.content}</ListItemText>
-				<Grid
-					container
-					direction="row"
-					justify="left"
-					className={classes.tweetInteractionRow}
-				>
+				<Grid container direction="row" className={classes.tweetInteractionRow}>
 					<Grid item>
 						<IconButton
 							disableRipple

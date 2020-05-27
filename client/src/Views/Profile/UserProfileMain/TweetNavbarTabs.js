@@ -11,8 +11,8 @@ const TweetNavbarTabs = (props) => {
 		setActive(value);
 	};
 
-	const tabs = tweetNavbarTabs.map((tab) => (
-		<NavbarTab label={tab} value={tab} />
+	const tabs = tweetNavbarTabs.map((tab, index) => (
+		<NavbarTab label={tab} value={tab} key={index} />
 	));
 
 	return (

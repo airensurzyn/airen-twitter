@@ -18,7 +18,6 @@ const TweetNavbar = (props) => {
 		<Grid
 			container
 			direction="row"
-			alignItems="left"
 			justify="space-between"
 			className={classes.root}
 		>
