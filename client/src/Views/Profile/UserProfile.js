@@ -52,6 +52,7 @@ const UserProfile = (props) => {
 
 	useEffect(() => {
 		const username = props.match.params.username.toString();
+		const URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:8080/';
 
 		const getProfileData = async () => {
 			try {
@@ -61,16 +62,12 @@ const UserProfile = (props) => {
 				setCurrentProfile(userProfile);
 				setTweetList(tweetList.data);
 				if (userProfile.data.profilePicture) {
-					setProfilePicture(
-						'http://localhost:3001/' + userProfile.data.profilePicture
-					);
+					setProfilePicture(URL + userProfile.data.profilePicture);
 				} else {
 					setProfilePicture(null);
 				}
 				if (userProfile.data.profileBackground) {
-					setBackgroundImage(
-						'http://localhost:3001/' + userProfile.data.profileBackground
-					);
+					setBackgroundImage(URL + userProfile.data.profileBackground);
 				} else {
 					setBackgroundImage(null);
 				}
