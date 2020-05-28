@@ -61,16 +61,16 @@ const UserProfile = (props) => {
 				const tweetList = await getTweetsByUserId(userProfile.data._id);
 				setCurrentProfile(userProfile);
 				setTweetList(tweetList.data);
-				if (userProfile.data.profilePicture) {
+				/*if (userProfile.data.profilePicture) {
 					setProfilePicture(URL + userProfile.data.profilePicture);
-				} else {
-					setProfilePicture(null);
-				}
-				if (userProfile.data.profileBackground) {
+				} else {*/
+				setProfilePicture(null);
+				//}
+				/*if (userProfile.data.profileBackground) {
 					setBackgroundImage(URL + userProfile.data.profileBackground);
-				} else {
-					setBackgroundImage(null);
-				}
+				} else {*/
+				setBackgroundImage(null);
+				//}
 			} catch (error) {
 				console.log(error);
 			}
@@ -125,14 +125,14 @@ const UserProfile = (props) => {
 	const profileImageUpload = async (file) => {
 		const data = new FormData();
 		data.append('file', file[0]);
-		await uploadUserImage(data, userContext.user.data.id, 'profile');
+		await uploadUserImage(data, userContext.user.data._id, 'profile');
 		setRecentlyFetched(false);
 	};
 
 	const backgroundImageFileUpload = async (file) => {
 		const data = new FormData();
 		data.append('file', file[0]);
-		await uploadUserImage(data, userContext.user.data.id, 'background');
+		await uploadUserImage(data, userContext.user.data._id, 'background');
 		setRecentlyFetched(false);
 	};
 
