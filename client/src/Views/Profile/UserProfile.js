@@ -52,6 +52,7 @@ const UserProfile = (props) => {
 
 	useEffect(() => {
 		const username = props.match.params.username.toString();
+		const URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:8080/';
 
 		const getProfileData = async () => {
 			try {
@@ -60,20 +61,16 @@ const UserProfile = (props) => {
 				const tweetList = await getTweetsByUserId(userProfile.data._id);
 				setCurrentProfile(userProfile);
 				setTweetList(tweetList.data);
-				if (userProfile.data.profilePicture) {
-					setProfilePicture(
-						'http://localhost:3001/' + userProfile.data.profilePicture
-					);
-				} else {
-					setProfilePicture(null);
-				}
-				if (userProfile.data.profileBackground) {
-					setBackgroundImage(
-						'http://localhost:3001/' + userProfile.data.profileBackground
-					);
-				} else {
-					setBackgroundImage(null);
-				}
+				/*if (userProfile.data.profilePicture) {
+					setProfilePicture(URL + userProfile.data.profilePicture);
+				} else {*/
+				setProfilePicture(null);
+				//}
+				/*if (userProfile.data.profileBackground) {
+					setBackgroundImage(URL + userProfile.data.profileBackground);
+				} else {*/
+				setBackgroundImage(null);
+				//}
 			} catch (error) {
 				console.log(error);
 			}
@@ -128,14 +125,14 @@ const UserProfile = (props) => {
 	const profileImageUpload = async (file) => {
 		const data = new FormData();
 		data.append('file', file[0]);
-		await uploadUserImage(data, userContext.user.data.id, 'profile');
+		await uploadUserImage(data, userContext.user.data._id, 'profile');
 		setRecentlyFetched(false);
 	};
 
 	const backgroundImageFileUpload = async (file) => {
 		const data = new FormData();
 		data.append('file', file[0]);
-		await uploadUserImage(data, userContext.user.data.id, 'background');
+		await uploadUserImage(data, userContext.user.data._id, 'background');
 		setRecentlyFetched(false);
 	};
 

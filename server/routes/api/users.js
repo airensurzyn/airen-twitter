@@ -7,9 +7,9 @@ const passport = require('passport');
 const multer = require('multer');
 const path = require('path');
 
-var redis = require('redis');
-const REDIS_PORT = process.env.port || 6379;
-const redisClient = redis.createClient(REDIS_PORT);
+//var redis = require('redis');
+//const REDIS_PORT = process.env.port || 6379;
+//const redisClient = redis.createClient(REDIS_PORT);
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -160,7 +160,7 @@ router.get(
 				res.status(404).send({ id: `User with id ${userId} is not found` });
 			} else {
 				const cachedUser = JSON.stringify(user);
-				redisClient.setex(userId, 3600, cachedUser);
+				//redisClient.setex(userId, 3600, cachedUser);
 				res.json({
 					_id: user.id,
 					firstName: user.firstName,

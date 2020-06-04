@@ -63,13 +63,13 @@ const Tweet = (props) => {
 			console.log(tweet.likedBy);
 			await postTweetLike(tweet._id);
 			let likes = likeCount;
-			let index = tweet.likedBy.indexOf(userContext.user.data.id.toString());
-			console.log(userContext.user.data.id.toString());
+			let index = tweet.likedBy.indexOf(userContext.user.data._id.toString());
+			console.log(userContext.user.data._id.toString());
 			if (index !== -1) {
 				setLikeCount(likes - 1);
 				tweet.likedBy.splice(index, 1);
 			} else {
-				tweet.likedBy = [...tweet.likedBy, userContext.user.data.id];
+				tweet.likedBy = [...tweet.likedBy, userContext.user.data._id];
 				setLikeCount(likes + 1);
 			}
 			setLikeActive(!likeActive);

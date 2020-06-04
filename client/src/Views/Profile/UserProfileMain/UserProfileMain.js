@@ -52,9 +52,6 @@ const UserProfileMain = (props) => {
 		profilePicture,
 		backgroundImage,
 	} = props;
-
-	console.log(currentProfile);
-
 	return (
 		<Grid className={classes.root} container direction="row">
 			<Grid className={classes.mainColumn} container direction="column">

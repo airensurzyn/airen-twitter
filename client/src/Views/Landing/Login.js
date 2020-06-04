@@ -135,7 +135,7 @@ const Login = (props) => {
 								<Grid alignItems="center" container direction="row">
 									<PeopleOutlineIcon className={classes.leftContainerIcon} />
 									<Typography className={classes.leftBanner}>
-										Hear what People is talking about.
+										Hear what People are talking about.
 									</Typography>
 								</Grid>
 								<Grid alignItems="center" container direction="row">

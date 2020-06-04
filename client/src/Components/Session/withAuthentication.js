@@ -20,10 +20,14 @@ const withAuthentication = (Component) => {
 					axios.defaults.headers.common['Authorization'] = token;
 					try {
 						const loggedInUser = await getAuthenticatedUser();
+						console.log(loggedInUser);
+						console.log(process.env.REACT_APP_SERVER_URL);
+						const URL =
+							process.env.REACT_APP_SERVER_URL || 'http://localhost:8080/';
 						loggedInUser.data.profileImage =
-							'http://localhost:3001/' + loggedInUser.data.profileImage;
+							URL + loggedInUser.data.profileImage;
 						setUser(loggedInUser);
-						setSocket(connect(loggedInUser.data.id));
+						setSocket(connect(loggedInUser.data._id));
 					} catch (error) {
 						console.log(error);
 					}
