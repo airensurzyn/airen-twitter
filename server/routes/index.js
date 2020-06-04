@@ -9,4 +9,8 @@ router.use(express.static(path.join(__dirname, '../uploads')));
 router.use('/api/users', users);
 router.use('/api/tweets', tweets);
 
+router.get('/*', (req, res) => {
+	res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+});
+
 module.exports = router;

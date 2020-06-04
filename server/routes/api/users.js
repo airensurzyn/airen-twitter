@@ -6,6 +6,7 @@ const keys = require('../../config/keys');
 const passport = require('passport');
 const multer = require('multer');
 const path = require('path');
+const logger = require('../../config/logger');
 
 //var redis = require('redis');
 //const REDIS_PORT = process.env.port || 6379;
@@ -74,7 +75,7 @@ router.post('/register', (req, res) => {
 					newUser
 						.save()
 						.then((user) => res.json(user))
-						.catch((err) => console.log(err));
+						.catch((err) => logger.error(err.stack));
 				});
 			});
 		}
@@ -89,7 +90,7 @@ router.post('/login', (req, res) => {
 	const { errors, isValid } = validateLoginInput(req.body);
 	// Check validation
 	if (!isValid) {
-		console.log(errors);
+		logger.error({ error: errors });
 		return res.status(400).json(errors);
 	}
 
@@ -142,7 +143,6 @@ router.get(
 	async (req, res) => {
 		try {
 			const userId = req.user.id;
-
 			/*redisClient.get(userId, (err, data) => {
 				if (err) {
 					throw err;
@@ -173,7 +173,7 @@ router.get(
 				});
 			}
 		} catch (error) {
-			console.log('Error getting user: ', error);
+			logger.error({ error: error.stack });
 			res.status(500).send({ error: error });
 		}
 	}
@@ -202,7 +202,7 @@ router.post(
 			}
 			res.status(200).send();
 		} catch (error) {
-			console.log(error);
+			logger.error({ error: error.stack });
 		}
 	}
 );
@@ -220,7 +220,7 @@ router.get(
 				res.status(200).send(user);
 			}
 		} catch (errors) {
-			console.log(errors);
+			logger.error({ error: errors.stack });
 			res.status(500).send({ error: error });
 		}
 	}

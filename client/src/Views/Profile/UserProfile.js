@@ -61,16 +61,16 @@ const UserProfile = (props) => {
 				const tweetList = await getTweetsByUserId(userProfile.data._id);
 				setCurrentProfile(userProfile);
 				setTweetList(tweetList.data);
-				/*if (userProfile.data.profilePicture) {
+				if (userProfile.data.profilePicture) {
 					setProfilePicture(URL + userProfile.data.profilePicture);
-				} else {*/
-				setProfilePicture(null);
-				//}
-				/*if (userProfile.data.profileBackground) {
+				} else {
+					setProfilePicture(null);
+				}
+				if (userProfile.data.profileBackground) {
 					setBackgroundImage(URL + userProfile.data.profileBackground);
-				} else {*/
-				setBackgroundImage(null);
-				//}
+				} else {
+					setBackgroundImage(null);
+				}
 			} catch (error) {
 				console.log(error);
 			}

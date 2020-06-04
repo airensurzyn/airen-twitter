@@ -20,7 +20,7 @@ router.post(
 			newTweet.save();
 			return res.status(200).send();
 		} catch (error) {
-			console.log(error);
+			logger.error({ error: error.stack });
 			return res.status(500).send();
 		}
 	}
@@ -35,7 +35,7 @@ router.get(
 		try {
 			results = await Tweet.find({ ownedBy: ownedBy }).sort({ created: -1 });
 		} catch (error) {
-			console.log(error);
+			logger.error({ error: error.stack });
 			res.status(500).send();
 		}
 		res.status(200).send(results);
@@ -59,8 +59,8 @@ router.get(
 			});
 			res.status(200).send(tweets);
 		} catch (errors) {
-			console.log(errors);
-			res.status(500).send({ error: error });
+			logger.error({ error: errors.stack });
+			res.status(500).send({ error: errors });
 		}
 	}
 );
@@ -107,7 +107,7 @@ router.post(
 			}
 			res.status(200).send();
 		} catch (error) {
-			console.log(error);
+			logger.error({ error: error.stack });
 		}
 	}
 );
