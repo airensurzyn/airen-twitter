@@ -7,6 +7,8 @@ const passport = require('passport');
 const multer = require('multer');
 const path = require('path');
 const logger = require('../../config/logger');
+const uploadImage = require('../../storage/store');
+const fs = require('fs');
 
 //var redis = require('redis');
 //const REDIS_PORT = process.env.port || 6379;
@@ -185,21 +187,23 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		try {
+			const imageUrl = await uploadImage(req.file);
 			if (req.query['type'] === 'background') {
 				await User.updateOne(
 					{ _id: req.user.id },
 					{
-						profileBackground: req.file.path,
+						profileBackground: imageUrl,
 					}
 				);
 			} else {
 				await User.updateOne(
 					{ _id: req.user.id },
 					{
-						profilePicture: req.file.path,
+						profilePicture: imageUrl,
 					}
 				);
 			}
+			fs.unlinkSync(req.file.path);
 			res.status(200).send();
 		} catch (error) {
 			logger.error({ error: error.stack });
