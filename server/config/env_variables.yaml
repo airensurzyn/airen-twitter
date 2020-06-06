@@ -1,2 +1,0 @@
-env_variables:
-  MONGO_URI: 'mongodb+srv://admin:iiGQhP5CfjF5l6DR@cluster0-m4y6c.gcp.mongodb.net/test?retryWrites=true&w=majority'

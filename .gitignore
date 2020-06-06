@@ -1,8 +1,7 @@
 node_modules/
 client/node_modules/
 server/uploads/*
-server/config/keys.js
-server/config/env_variables.yaml
+server/config/*
 client/build
 ./.readme/*
 server/public/*
