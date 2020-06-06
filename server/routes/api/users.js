@@ -4,40 +4,77 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const keys = require('../../config/keys');
 const passport = require('passport');
-const multer = require('multer');
+const Multer = require('multer');
+const util = require('util');
 const path = require('path');
 const logger = require('../../config/logger');
 const uploadImage = require('../../storage/store');
 const fs = require('fs');
+const { Storage } = require('@google-cloud/storage');
+const storage = new Storage();
 
 //var redis = require('redis');
 //const REDIS_PORT = process.env.port || 6379;
 //const redisClient = redis.createClient(REDIS_PORT);
 
-const storage = multer.diskStorage({
+/*const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, './uploads/');
 	},
 	filename: function (req, file, cb) {
 		cb(null, new Date().toISOString() + file.originalname);
 	},
-});
+});*/
+const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 
 const fileFilter = (req, file, cb) => {
 	cb(null, true);
 };
 
-const upload = multer({
-	storage: storage,
+const multer = Multer({
+	storage: Multer.memoryStorage(),
 	limits: {
-		filesize: 1024 * 1024 * 5,
+		fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
 	},
-	fileFilter: fileFilter,
 });
+
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 
 const User = require('../../models/User');
+
+router.post(
+	'/:id/upload',
+	multer.single('file'),
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		if (!req.file) {
+			res.status(400).send('No file uploaded.');
+			return;
+		}
+		try {
+			const imageUrl = await uploadImage(req.file);
+			if (req.query['type'] === 'background') {
+				await User.updateOne(
+					{ _id: req.user.id },
+					{
+						profileBackground: imageUrl,
+					}
+				);
+			} else {
+				await User.updateOne(
+					{ _id: req.user.id },
+					{
+						profilePicture: imageUrl,
+					}
+				);
+			}
+			res.status(200).send();
+		} catch (error) {
+			logger.error({ error: error.stack });
+		}
+	}
+);
 
 // @route POST api/users/register
 // @desc Register user
@@ -177,36 +214,6 @@ router.get(
 		} catch (error) {
 			logger.error({ error: error.stack });
 			res.status(500).send({ error: error });
-		}
-	}
-);
-
-router.post(
-	'/:id/upload',
-	upload.single('file'),
-	passport.authenticate('jwt', { session: false }),
-	async (req, res) => {
-		try {
-			const imageUrl = await uploadImage(req.file);
-			if (req.query['type'] === 'background') {
-				await User.updateOne(
-					{ _id: req.user.id },
-					{
-						profileBackground: imageUrl,
-					}
-				);
-			} else {
-				await User.updateOne(
-					{ _id: req.user.id },
-					{
-						profilePicture: imageUrl,
-					}
-				);
-			}
-			fs.unlinkSync(req.file.path);
-			res.status(200).send();
-		} catch (error) {
-			logger.error({ error: error.stack });
 		}
 	}
 );

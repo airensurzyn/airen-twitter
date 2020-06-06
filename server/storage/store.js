@@ -1,26 +1,28 @@
 const util = require('util');
 const gc = require('./index');
-const bucket = gc.bucket('not-twitter-acs.appspot.com');
-var fs = require('fs');
+const { Storage } = require('@google-cloud/storage');
+const storage = new Storage();
+const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 
 const uploadImage = async (file) =>
 	new Promise((resolve, reject) => {
-		var localReadStream = fs.createReadStream(file.path);
-		var remoteWriteStream = bucket
-			.file('uploads/' + file.filename)
-			.createWriteStream();
-		localReadStream
-			.pipe(remoteWriteStream)
-			.on('error', function (err) {
-				reject(`Unable to upload image, something went wrong`);
-			})
-			.on('finish', function () {
-				const fileName = encodeURIComponent(file.filename);
-				const publicUrl = util.format(
-					`https://storage.cloud.google.com/${bucket.name}/uploads/${fileName}`
-				);
-				resolve(publicUrl);
-			});
+		const fileName = new Date().toISOString() + file.originalname;
+		const blob = bucket.file('uploads/' + fileName);
+		const blobStream = blob.createWriteStream();
+
+		blobStream.on('error', (err) => {
+			reject(err);
+		});
+
+		blobStream.on('finish', () => {
+			const encodedfileName = encodeURIComponent(fileName);
+			const publicUrl = util.format(
+				`https://storage.cloud.google.com/${bucket.name}/uploads/${encodedfileName}`
+			);
+			resolve(publicUrl);
+		});
+
+		blobStream.end(file.buffer);
 	});
 
-https: module.exports = uploadImage;
+module.exports = uploadImage;
