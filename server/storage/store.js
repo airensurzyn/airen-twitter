@@ -2,7 +2,6 @@ const util = require('util');
 const gc = require('../config/index');
 const bucket = gc.bucket('not-twitter-acs.appspot.com');
 var fs = require('fs');
-const utf8 = require('utf8');
 
 const uploadImage = async (file) =>
 	new Promise((resolve, reject) => {
@@ -17,11 +16,9 @@ const uploadImage = async (file) =>
 			})
 			.on('finish', function () {
 				const fileName = encodeURIComponent(file.filename);
-				console.log(fileName);
 				const publicUrl = util.format(
 					`https://storage.cloud.google.com/${bucket.name}/uploads/${fileName}`
 				);
-				console.log('here');
 				resolve(publicUrl);
 			});
 	});
