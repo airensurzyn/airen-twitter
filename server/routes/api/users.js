@@ -4,36 +4,21 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const keys = require('../../config/keys');
 const passport = require('passport');
-const multer = require('multer');
-const path = require('path');
+const Multer = require('multer');
 const logger = require('../../config/logger');
 const uploadImage = require('../../storage/store');
-const fs = require('fs');
 
 //var redis = require('redis');
 //const REDIS_PORT = process.env.port || 6379;
 //const redisClient = redis.createClient(REDIS_PORT);
 
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, './uploads/');
-	},
-	filename: function (req, file, cb) {
-		cb(null, new Date().toISOString() + file.originalname);
-	},
-});
-
-const fileFilter = (req, file, cb) => {
-	cb(null, true);
-};
-
-const upload = multer({
-	storage: storage,
+const multer = Multer({
+	storage: Multer.memoryStorage(),
 	limits: {
-		filesize: 1024 * 1024 * 5,
+		fileSize: 5 * 1024 * 1024,
 	},
-	fileFilter: fileFilter,
 });
+
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 
@@ -181,11 +166,37 @@ router.get(
 	}
 );
 
-router.post(
-	'/:id/upload',
-	upload.single('file'),
+router.get(
+	'/:username',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
+		const username = req.params.username;
+		try {
+			const user = await User.findOne({ username: username });
+			if (!user) {
+				res.status(404).send({ id: `User with id ${userId} is not found` });
+			} else {
+				res.status(200).send(user);
+			}
+		} catch (errors) {
+			logger.error({ error: errors.stack });
+			res.status(500).send({ error: error });
+		}
+	}
+);
+
+// @route POST api/users/:id/upload
+// @desc User creates profile/background image
+// @access Public
+router.post(
+	'/:id/upload',
+	multer.single('file'),
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		if (!req.file) {
+			res.status(400).send('No file uploaded.');
+			return;
+		}
 		try {
 			const imageUrl = await uploadImage(req.file);
 			if (req.query['type'] === 'background') {
@@ -203,29 +214,9 @@ router.post(
 					}
 				);
 			}
-			fs.unlinkSync(req.file.path);
 			res.status(200).send();
 		} catch (error) {
 			logger.error({ error: error.stack });
-		}
-	}
-);
-
-router.get(
-	'/:username',
-	passport.authenticate('jwt', { session: false }),
-	async (req, res) => {
-		const username = req.params.username;
-		try {
-			const user = await User.findOne({ username: username });
-			if (!user) {
-				res.status(404).send({ id: `User with id ${userId} is not found` });
-			} else {
-				res.status(200).send(user);
-			}
-		} catch (errors) {
-			logger.error({ error: errors.stack });
-			res.status(500).send({ error: error });
 		}
 	}
 );
