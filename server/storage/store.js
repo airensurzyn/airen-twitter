@@ -12,7 +12,6 @@ const uploadImage = async (file) =>
 		localReadStream
 			.pipe(remoteWriteStream)
 			.on('error', function (err) {
-				console.log(err);
 				reject(`Unable to upload image, something went wrong`);
 			})
 			.on('finish', function () {
