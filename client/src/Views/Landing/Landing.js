@@ -15,13 +15,9 @@ const Landing = (props) => {
 	const [loggedInUsername, setLoggedInUsername] = useState(
 		context.user ? context.user.username : ''
 	);
+	const [registerUserDetails, setRegisterUserDetails] = useState({});
 	const [registerModalOpen, setRegisterModalOpen] = useState(true);
-	const [registerFirstName, setRegisterFirstName] = useState('');
-	const [registerLastName, setRegisterLastName] = useState('');
-	const [registerEmail, setRegisterEmail] = useState('');
-	const [registerPassword, setRegisterPassword] = useState('');
-	const [registerConfirmPassword, setRegisterConfirmPassword] = useState('');
-	const [registerUsername, setRegisterUsername] = useState('');
+	const [loginUserDetails, setLoginUserDetails] = useState({});
 	const [loginEmail, setLoginEmail] = useState('');
 	const [loginPassword, setLoginPassword] = useState('');
 	const [loginErrors, setLoginErrors] = useState({});
@@ -32,13 +28,14 @@ const Landing = (props) => {
 	};
 
 	const registerNewUser = async () => {
+		console.log(registerUserDetails);
 		const userData = {
-			firstName: registerFirstName,
-			lastName: registerLastName,
-			username: registerUsername,
-			email: registerEmail,
-			password: registerPassword,
-			confirmPassword: registerConfirmPassword,
+			firstName: registerUserDetails.firstName,
+			lastName: registerUserDetails.lastName,
+			username: registerUserDetails.username,
+			email: registerUserDetails.email,
+			password: registerUserDetails.password,
+			confirmPassword: registerUserDetails.confirmPassword,
 		};
 		try {
 			await registerUser(userData);
@@ -49,8 +46,8 @@ const Landing = (props) => {
 
 	const handleLogIn = async () => {
 		const loginData = {
-			email: loginEmail,
-			password: loginPassword,
+			email: loginUserDetails.loginEmail,
+			password: loginUserDetails.loginPassword,
 		};
 		try {
 			let res = await loginUser(loginData);
@@ -67,20 +64,10 @@ const Landing = (props) => {
 			<Switch>
 				<Route path={['/register']}>
 					<Register
+						registerUserDetails={registerUserDetails}
+						setRegisterUserDetails={setRegisterUserDetails}
 						registerUser={registerNewUser}
 						registerModalOpen={registerModalOpen}
-						firstName={registerFirstName}
-						setRegisterFirstName={setRegisterFirstName}
-						lastName={registerLastName}
-						setRegisterLastName={setRegisterLastName}
-						setRegisterEmail={setRegisterEmail}
-						email={registerEmail}
-						password={registerPassword}
-						setRegisterPassword={setRegisterPassword}
-						confirmPassword={registerConfirmPassword}
-						setRegisterConfirmPassword={setRegisterConfirmPassword}
-						username={registerUsername}
-						setRegisterUsername={setRegisterUsername}
 						handleRegisterModalClose={toggleRegisterModal}
 						registerErrors={registerErrors}
 					/>
@@ -92,11 +79,9 @@ const Landing = (props) => {
 					<Login
 						registerModalOpen={registerModalOpen}
 						handleRegisterModalOpen={toggleRegisterModal}
+						loginUserDetails={loginUserDetails}
+						setLoginUserDetails={setLoginUserDetails}
 						handleLogIn={handleLogIn}
-						loginEmail={loginEmail}
-						setLoginPassword={setLoginPassword}
-						loginPassword={loginPassword}
-						setLoginEmail={setLoginEmail}
 						loggedIn={loggedIn}
 						loginErrors={loginErrors}
 						loggedInUsername={loggedInUsername}

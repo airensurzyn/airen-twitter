@@ -53,20 +53,10 @@ const Register = (props) => {
 	const history = useHistory();
 
 	const {
-		firstName,
-		lastName,
-		email,
-		username,
-		password,
-		confirmPassword,
+		registerUserDetails,
+		setRegisterUserDetails,
 		handleRegisterModalClose,
 		registerUser,
-		setRegisterFirstName,
-		setRegisterLastName,
-		setRegisterEmail,
-		setRegisterPassword,
-		setRegisterConfirmPassword,
-		setRegisterUsername,
 		registerErrors,
 	} = props;
 
@@ -116,8 +106,13 @@ const Register = (props) => {
 								name="registerFormFirstName"
 								variant="outlined"
 								fullWidth
-								onChange={(e) => setRegisterFirstName(e.target.value)}
-								value={firstName}
+								onChange={(e) =>
+									setRegisterUserDetails({
+										...registerUserDetails,
+										firstName: e.target.value,
+									})
+								}
+								value={registerUserDetails.firstName}
 								error={'firstName' in registerErrors}
 								helperText={registerErrors.firstName}
 							/>
@@ -128,8 +123,13 @@ const Register = (props) => {
 								name="registerFormLastName"
 								variant="outlined"
 								fullWidth
-								onChange={(e) => setRegisterLastName(e.target.value)}
-								value={lastName}
+								onChange={(e) =>
+									setRegisterUserDetails({
+										...registerUserDetails,
+										lastName: e.target.value,
+									})
+								}
+								value={registerUserDetails.lastName}
 								error={'lastName' in registerErrors}
 								helperText={registerErrors.lastName}
 							/>
@@ -150,8 +150,13 @@ const Register = (props) => {
 								name="registerFormEmail"
 								variant="outlined"
 								fullWidth
-								onChange={(e) => setRegisterEmail(e.target.value)}
-								value={email}
+								onChange={(e) =>
+									setRegisterUserDetails({
+										...registerUserDetails,
+										email: e.target.value,
+									})
+								}
+								value={registerUserDetails.email}
 								error={'email' in registerErrors}
 								helperText={registerErrors.email}
 							/>
@@ -171,8 +176,13 @@ const Register = (props) => {
 								name="registerFormUsername"
 								variant="outlined"
 								fullWidth
-								onChange={(e) => setRegisterUsername(e.target.value)}
-								value={username}
+								onChange={(e) =>
+									setRegisterUserDetails({
+										...registerUserDetails,
+										username: e.target.value,
+									})
+								}
+								value={registerUserDetails.username}
 								error={'username' in registerErrors}
 								helperText={registerErrors.username}
 							/>
@@ -194,8 +204,13 @@ const Register = (props) => {
 								variant="outlined"
 								type="password"
 								fullWidth
-								onChange={(e) => setRegisterPassword(e.target.value)}
-								value={password}
+								onChange={(e) =>
+									setRegisterUserDetails({
+										...registerUserDetails,
+										password: e.target.value,
+									})
+								}
+								value={registerUserDetails.password}
 								error={'password' in registerErrors}
 								helperText={registerErrors.password}
 							/>
@@ -207,8 +222,13 @@ const Register = (props) => {
 								variant="outlined"
 								type="password"
 								fullWidth
-								onChange={(e) => setRegisterConfirmPassword(e.target.value)}
-								value={confirmPassword}
+								onChange={(e) =>
+									setRegisterUserDetails({
+										...registerUserDetails,
+										confirmPassword: e.target.value,
+									})
+								}
+								value={registerUserDetails.confirmPassword}
 								error={'confirmPassword' in registerErrors}
 								helperText={registerErrors.confirmPassword}
 							/>
