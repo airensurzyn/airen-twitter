@@ -2,40 +2,28 @@ const util = require('util');
 const gc = require('../config/index');
 const bucket = gc.bucket('not-twitter-acs.appspot.com');
 var fs = require('fs');
+const utf8 = require('utf8');
 
-const uploadImage = (file) => {
-	console.log(file.path);
-	console.log(file);
-	console.log(file.filename);
-	var localReadStream = fs.createReadStream(file.path);
-	var remoteWriteStream = bucket.file(file.filename).createWriteStream();
-	localReadStream
-		.pipe(remoteWriteStream)
-		.on('error', function (err) {})
-		.on('finish', function () {
-			// The file upload is complete.
-		});
-};
-
-/*const uploadImage = (file) =>
+const uploadImage = async (file) =>
 	new Promise((resolve, reject) => {
-		const { originalname, buffer } = file;
-
-		const blob = bucket.file(originalname.replace(/ /g, '_'));
-		const blobStream = blob.createWriteStream({
-			resumable: false,
-		});
-		blobStream
-			.on('finish', () => {
-				const publicUrl = util.format(
-					`https://storage.googleapis.com/${bucket.name}/uploads/${blob.name}`
-				);
-				resolve(publicUrl);
-			})
-			.on('error', () => {
+		var localReadStream = fs.createReadStream(file.path);
+		var remoteWriteStream = bucket
+			.file('uploads/' + file.filename)
+			.createWriteStream();
+		localReadStream
+			.pipe(remoteWriteStream)
+			.on('error', function (err) {
 				reject(`Unable to upload image, something went wrong`);
 			})
-			.end(buffer);
-	});*/
+			.on('finish', function () {
+				const fileName = encodeURIComponent(file.filename);
+				console.log(fileName);
+				const publicUrl = util.format(
+					`https://storage.cloud.google.com/${bucket.name}/uploads/${fileName}`
+				);
+				console.log('here');
+				resolve(publicUrl);
+			});
+	});
 
-module.exports = uploadImage;
+https: module.exports = uploadImage;
