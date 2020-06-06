@@ -1,5 +1,5 @@
 const util = require('util');
-const gc = require('../config/index');
+const gc = require('./index');
 const bucket = gc.bucket('not-twitter-acs.appspot.com');
 var fs = require('fs');
 
@@ -12,6 +12,7 @@ const uploadImage = async (file) =>
 		localReadStream
 			.pipe(remoteWriteStream)
 			.on('error', function (err) {
+				console.log(err);
 				reject(`Unable to upload image, something went wrong`);
 			})
 			.on('finish', function () {
