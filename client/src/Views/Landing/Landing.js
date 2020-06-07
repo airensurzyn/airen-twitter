@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core';
 import Login from './Login';
 import Register from './Register';
 import { registerUser, loginUser } from '../../Utils/api';
+import RegisterSuccessDialog from './RegisterSuccessDialog';
 
 import AuthNUserContext from '../../Components/Session/AuthNUserContext';
 import UserProfile from '../Profile/UserProfile';
@@ -17,14 +18,21 @@ const Landing = (props) => {
 	);
 	const [registerUserDetails, setRegisterUserDetails] = useState({});
 	const [registerModalOpen, setRegisterModalOpen] = useState(true);
+	const [
+		userRegisterSuccessModalOpen,
+		setUserRegisterSuccessModalOpen,
+	] = useState(false);
+	const [userRegisterSuccess, setRegisterUserSuccess] = useState(false);
 	const [loginUserDetails, setLoginUserDetails] = useState({});
-	const [loginEmail, setLoginEmail] = useState('');
-	const [loginPassword, setLoginPassword] = useState('');
 	const [loginErrors, setLoginErrors] = useState({});
 	const [registerErrors, setRegisterErrors] = useState({});
 
 	const toggleRegisterModal = () => {
 		setRegisterModalOpen(!registerModalOpen);
+	};
+
+	const toggleUserRegisterSuccessModalRegisterModal = () => {
+		setUserRegisterSuccessModalOpen(!userRegisterSuccessModalOpen);
 	};
 
 	const registerNewUser = async () => {
@@ -38,7 +46,11 @@ const Landing = (props) => {
 			confirmPassword: registerUserDetails.confirmPassword,
 		};
 		try {
-			await registerUser(userData);
+			let result = await registerUser(userData);
+			if (result.status == 200) {
+				setRegisterUserSuccess(true);
+			}
+			toggleUserRegisterSuccessModalRegisterModal();
 		} catch (error) {
 			setRegisterErrors(error.response.data);
 		}
@@ -70,6 +82,13 @@ const Landing = (props) => {
 						registerModalOpen={registerModalOpen}
 						handleRegisterModalClose={toggleRegisterModal}
 						registerErrors={registerErrors}
+					/>
+					<RegisterSuccessDialog
+						userRegisterSuccessModalOpen={userRegisterSuccessModalOpen}
+						userRegisterSuccess={userRegisterSuccess}
+						toggleUserRegisterSuccessModalRegisterModal={
+							toggleUserRegisterSuccessModalRegisterModal
+						}
 					/>
 				</Route>
 			</Switch>
