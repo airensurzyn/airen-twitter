@@ -86,8 +86,8 @@ const Login = (props) => {
 	const classes = useStyles();
 
 	const {
-		setLoginPassword,
-		setLoginEmail,
+		setLoginUserDetails,
+		loginUserDetails,
 		handleLogIn,
 		loggedIn,
 		loginErrors,
@@ -167,7 +167,12 @@ const Login = (props) => {
 										className={classes.loginTextField}
 										label="email"
 										variant="outlined"
-										onChange={(e) => setLoginEmail(e.target.value)}
+										onChange={(e) =>
+											setLoginUserDetails({
+												...loginUserDetails,
+												loginEmail: e.target.value,
+											})
+										}
 										error={'email' in loginErrors}
 										helperText={loginErrors.email}
 									></TextField>
@@ -177,7 +182,12 @@ const Login = (props) => {
 										type="password"
 										label="password"
 										variant="outlined"
-										onChange={(e) => setLoginPassword(e.target.value)}
+										onChange={(e) =>
+											setLoginUserDetails({
+												...loginUserDetails,
+												loginPassword: e.target.value,
+											})
+										}
 										error={'password' in loginErrors}
 										helperText={loginErrors.password}
 									></TextField>

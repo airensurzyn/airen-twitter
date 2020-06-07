@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core';
 import Login from './Login';
 import Register from './Register';
 import { registerUser, loginUser } from '../../Utils/api';
+import RegisterSuccessDialog from './RegisterSuccessDialog';
 
 import AuthNUserContext from '../../Components/Session/AuthNUserContext';
 import UserProfile from '../Profile/UserProfile';
@@ -15,15 +16,14 @@ const Landing = (props) => {
 	const [loggedInUsername, setLoggedInUsername] = useState(
 		context.user ? context.user.username : ''
 	);
+	const [registerUserDetails, setRegisterUserDetails] = useState({});
 	const [registerModalOpen, setRegisterModalOpen] = useState(true);
-	const [registerFirstName, setRegisterFirstName] = useState('');
-	const [registerLastName, setRegisterLastName] = useState('');
-	const [registerEmail, setRegisterEmail] = useState('');
-	const [registerPassword, setRegisterPassword] = useState('');
-	const [registerConfirmPassword, setRegisterConfirmPassword] = useState('');
-	const [registerUsername, setRegisterUsername] = useState('');
-	const [loginEmail, setLoginEmail] = useState('');
-	const [loginPassword, setLoginPassword] = useState('');
+	const [
+		userRegisterSuccessModalOpen,
+		setUserRegisterSuccessModalOpen,
+	] = useState(false);
+	const [userRegisterSuccess, setRegisterUserSuccess] = useState(false);
+	const [loginUserDetails, setLoginUserDetails] = useState({});
 	const [loginErrors, setLoginErrors] = useState({});
 	const [registerErrors, setRegisterErrors] = useState({});
 
@@ -31,17 +31,26 @@ const Landing = (props) => {
 		setRegisterModalOpen(!registerModalOpen);
 	};
 
+	const toggleUserRegisterSuccessModalRegisterModal = () => {
+		setUserRegisterSuccessModalOpen(!userRegisterSuccessModalOpen);
+	};
+
 	const registerNewUser = async () => {
+		console.log(registerUserDetails);
 		const userData = {
-			firstName: registerFirstName,
-			lastName: registerLastName,
-			username: registerUsername,
-			email: registerEmail,
-			password: registerPassword,
-			confirmPassword: registerConfirmPassword,
+			firstName: registerUserDetails.firstName,
+			lastName: registerUserDetails.lastName,
+			username: registerUserDetails.username,
+			email: registerUserDetails.email,
+			password: registerUserDetails.password,
+			confirmPassword: registerUserDetails.confirmPassword,
 		};
 		try {
-			await registerUser(userData);
+			let result = await registerUser(userData);
+			if (result.status == 200) {
+				setRegisterUserSuccess(true);
+			}
+			toggleUserRegisterSuccessModalRegisterModal();
 		} catch (error) {
 			setRegisterErrors(error.response.data);
 		}
@@ -49,8 +58,8 @@ const Landing = (props) => {
 
 	const handleLogIn = async () => {
 		const loginData = {
-			email: loginEmail,
-			password: loginPassword,
+			email: loginUserDetails.loginEmail,
+			password: loginUserDetails.loginPassword,
 		};
 		try {
 			let res = await loginUser(loginData);
@@ -67,22 +76,19 @@ const Landing = (props) => {
 			<Switch>
 				<Route path={['/register']}>
 					<Register
+						registerUserDetails={registerUserDetails}
+						setRegisterUserDetails={setRegisterUserDetails}
 						registerUser={registerNewUser}
 						registerModalOpen={registerModalOpen}
-						firstName={registerFirstName}
-						setRegisterFirstName={setRegisterFirstName}
-						lastName={registerLastName}
-						setRegisterLastName={setRegisterLastName}
-						setRegisterEmail={setRegisterEmail}
-						email={registerEmail}
-						password={registerPassword}
-						setRegisterPassword={setRegisterPassword}
-						confirmPassword={registerConfirmPassword}
-						setRegisterConfirmPassword={setRegisterConfirmPassword}
-						username={registerUsername}
-						setRegisterUsername={setRegisterUsername}
 						handleRegisterModalClose={toggleRegisterModal}
 						registerErrors={registerErrors}
+					/>
+					<RegisterSuccessDialog
+						userRegisterSuccessModalOpen={userRegisterSuccessModalOpen}
+						userRegisterSuccess={userRegisterSuccess}
+						toggleUserRegisterSuccessModalRegisterModal={
+							toggleUserRegisterSuccessModalRegisterModal
+						}
 					/>
 				</Route>
 			</Switch>
@@ -92,11 +98,9 @@ const Landing = (props) => {
 					<Login
 						registerModalOpen={registerModalOpen}
 						handleRegisterModalOpen={toggleRegisterModal}
+						loginUserDetails={loginUserDetails}
+						setLoginUserDetails={setLoginUserDetails}
 						handleLogIn={handleLogIn}
-						loginEmail={loginEmail}
-						setLoginPassword={setLoginPassword}
-						loginPassword={loginPassword}
-						setLoginEmail={setLoginEmail}
 						loggedIn={loggedIn}
 						loginErrors={loginErrors}
 						loggedInUsername={loggedInUsername}
