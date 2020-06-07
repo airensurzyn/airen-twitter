@@ -47,6 +47,10 @@ const SidebarList = (props) => {
 		handleNotificationsClick();
 	};
 
+	const handleProfileClick = () => {
+		console.log('clicked');
+	};
+
 	return (
 		<div className={classes.root}>
 			<List>
@@ -86,7 +90,7 @@ const SidebarList = (props) => {
 						primary="Messages"
 					/>
 				</ListItem>
-				<ListItem button disableRipple>
+				<ListItem button disableRipple onClick={handleProfileClick}>
 					<ListItemIcon className={classes.listIcon}>
 						<PersonIcon />
 					</ListItemIcon>
