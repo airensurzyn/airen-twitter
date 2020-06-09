@@ -18,9 +18,9 @@ Features
 - [x] Profile url based on username
 - [x] User can tweet, tweets are persisted
 - [x] User can like another user's tweet (with rules, ie only like once etc)
-- [ ] Create Sockets for notifications on user events (likes, messages)
+- [x] Create Sockets for notifications on user events (likes, messages)
 - [ ] In-app messaging page
-- [ ] Deploy to GCP
+- [x] Deploy to GCP
 - [x] Tweets show up in reverse chronological order, show up without refresh
 - [ ] Search for other users through search bar
 - [ ] User can "follow" another user
