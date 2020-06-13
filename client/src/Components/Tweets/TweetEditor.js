@@ -47,7 +47,6 @@ const TweetEditor = (props) => {
 		tweetError,
 		userContext,
 	} = props;
-	console.log(userContext.user.data);
 
 	const setModalClose = () => {
 		handleModalClose();

@@ -57,7 +57,7 @@ const UserProfileMain = (props) => {
 			<Grid className={classes.mainColumn} container direction="column">
 				<div className={classes.profileTitle}>
 					<Typography className={classes.usernameLabelTop}>
-						{currentProfile.data ? currentProfile.data.username : ''}
+						{currentProfile.data ? currentProfile.data.username : 'Profile'}
 					</Typography>
 				</div>
 				<Divider />
@@ -71,13 +71,18 @@ const UserProfileMain = (props) => {
 					/>
 				</Grid>
 				<UserProfileDashboard
-					profileOwner={currentProfile.data ? currentProfile.data.username : ''}
+					profileOwner={currentProfile.data ? currentProfile.data : ''}
 					profilePicture={profilePicture}
 					profileImageUpload={profileImageUpload}
 				/>
-				<Grid container className={classes.profileTweetsNavbar}>
-					<TweetNavbar tweetNavbarTabs={props.tweetNavbarTabs} />
-				</Grid>
+				{currentProfile.data ? (
+					<Grid container className={classes.profileTweetsNavbar}>
+						<TweetNavbar tweetNavbarTabs={props.tweetNavbarTabs} />
+					</Grid>
+				) : (
+					<div></div>
+				)}
+
 				<Grid container direction="row">
 					<Grid item className={classes.profileTweetsSection}>
 						<TweetList
