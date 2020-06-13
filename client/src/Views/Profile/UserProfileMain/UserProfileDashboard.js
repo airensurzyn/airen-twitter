@@ -55,6 +55,15 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: '50%',
 		backgroundColor: '#000000',
 	},
+	notFoundMessage: {
+		fontWeight: 'bold',
+		fontSize: '1.25rem',
+		margin: 'auto',
+	},
+	notFoundSubMessage: {
+		margin: 'auto',
+		color: '#636363',
+	},
 	uploadImageLabel: { paddingTop: '35%', fontSize: '1rem' },
 }));
 
@@ -81,7 +90,7 @@ const UserProfileDashboard = (props) => {
 			);
 		} else if (
 			!profilePicture &&
-			profileOwner === userContext.user.data.username &&
+			profileOwner.username === userContext.user.data.username &&
 			profilePicture !== 'none'
 		) {
 			return (
@@ -129,22 +138,39 @@ const UserProfileDashboard = (props) => {
 		<Grid container direction="column">
 			<Grid item>{profileImageElement()}</Grid>
 			<Grid container direction="column" className={classes.profileInfoSection}>
-				<Grid item>
-					<Typography className={classes.profileUsername}>
-						!{profileOwner}
-					</Typography>
-				</Grid>
-				<Grid item>
-					<Typography className={classes.profileDetail}>
-						Joined : {userContext.user.data.date.slice(0, 4)}
-					</Typography>
-				</Grid>
-				<Grid item container direction="row">
-					<Typography className={classes.profileDetail}>Followers: </Typography>
-					<Typography className={classes.profileDetail}>
-						Followed By:
-					</Typography>
-				</Grid>
+				{profileOwner ? (
+					<div>
+						<Grid item>
+							<Typography className={classes.profileUsername}>
+								!{profileOwner.username}
+							</Typography>
+						</Grid>
+						<Grid item>
+							<Typography className={classes.profileDetail}>
+								Joined : {profileOwner ? profileOwner.date.slice(0, 4) : ''}
+							</Typography>
+						</Grid>
+						<Grid item container direction="row">
+							<Typography className={classes.profileDetail}>
+								Followers:{' '}
+							</Typography>
+							<Typography className={classes.profileDetail}>
+								Followed By:
+							</Typography>
+						</Grid>
+					</div>
+				) : (
+					<Grid container direction="row">
+						<Grid container direction="column">
+							<Grid item className={classes.notFoundMessage}>
+								User Not Found
+							</Grid>
+							<Grid item className={classes.notFoundSubMessage}>
+								Try another username
+							</Grid>
+						</Grid>
+					</Grid>
+				)}
 			</Grid>
 		</Grid>
 	);

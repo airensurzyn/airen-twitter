@@ -52,7 +52,6 @@ const UserProfile = (props) => {
 
 	useEffect(() => {
 		const username = props.match.params.username.toString();
-
 		const getProfileData = async () => {
 			try {
 				const userProfile = await getUserByUsername(username);
@@ -151,14 +150,7 @@ const UserProfile = (props) => {
 	return (
 		<CssBaseline>
 			<Grid className={classes.root} container direction="row">
-				<Grid item xs={3} className={classes.sidebar}>
-					<UserProfileSidebar
-						notifications={notifications}
-						handleModalOpen={handleModalOpen}
-						handleNotificationsClick={handleNotificationsClick}
-					/>
-				</Grid>
-				<Grid item xs={6}>
+				<Grid item xs={12}>
 					<UserProfileMain
 						userContext={userContext}
 						tweetNavbarTabs={tweetNavbarTabs}
@@ -169,9 +161,6 @@ const UserProfile = (props) => {
 						profilePicture={profilePicture}
 						profileImageUpload={profileImageUpload}
 					/>
-				</Grid>
-				<Grid item xs={3}>
-					<UserProfileRightSidebar logout={logout} />
 				</Grid>
 			</Grid>
 			<TweetEditor
