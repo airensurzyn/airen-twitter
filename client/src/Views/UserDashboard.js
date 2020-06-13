@@ -8,6 +8,7 @@ import requireAuth from '../Components/Session/requireAuth';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import UserProfileRightSidebar from './Profile/UserProfileRightSidebar/UserProfileRightSidebar';
 import AuthNUserContext from '../Components/Session/AuthNUserContext';
+import MessageConversationView from './Messages/MessageConversationView';
 
 const UserDashboard = (props) => {
 	const userContext = useContext(AuthNUserContext);
@@ -60,7 +61,12 @@ const UserDashboard = (props) => {
 					</Grid>
 				</Switch>
 				<Grid item xs={3}>
-					<UserProfileRightSidebar logout={logout} />
+					<Route
+						exact
+						path={'/profile/:username'}
+						logout={logout}
+						component={UserProfileRightSidebar}
+					/>
 				</Grid>
 			</Grid>
 		</CssBaseline>
