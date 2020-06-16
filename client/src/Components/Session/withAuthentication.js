@@ -20,7 +20,8 @@ const withAuthentication = (Component) => {
 					axios.defaults.headers.common['Authorization'] = token;
 					try {
 						const loggedInUser = await getAuthenticatedUser();
-						loggedInUser.data.profileImage = loggedInUser.data.profileImage;
+						//loggedInUser.data.profileImage = loggedInUser.data.profileImage;
+						console.log(loggedInUser);
 						setUser(loggedInUser);
 						setSocket(connect(loggedInUser.data._id));
 					} catch (error) {

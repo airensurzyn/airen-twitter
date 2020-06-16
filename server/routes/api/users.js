@@ -157,6 +157,8 @@ router.get(
 					date: user.date,
 					profileImage: user.profilePicture,
 					profileBackground: user.profileBackground,
+					following: user.following,
+					followedBy: user.followedBy,
 				});
 			}
 		} catch (error) {
@@ -218,6 +220,39 @@ router.post(
 		} catch (error) {
 			logger.error({ error: error.stack });
 		}
+	}
+);
+
+router.post(
+	'/:id/follow',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			await User.updateOne(
+				{ _id: req.user.id, following: { $ne: req.params.id } },
+				{ $push: { following: req.params.id } }
+			);
+		} catch (error) {
+			logger.error({ error: error.stack });
+		}
+		res.send(200);
+	}
+);
+
+router.post(
+	'/:id/unfollow',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		console.log(req.user.id + ' wants to unfollow : ' + req.params.id);
+		try {
+			await User.updateOne(
+				{ _id: req.user.id },
+				{ $pull: { following: req.params.id } }
+			);
+		} catch (error) {
+			logger.error({ error: error.stack });
+		}
+		res.send(200);
 	}
 );
 
