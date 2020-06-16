@@ -51,6 +51,8 @@ const UserProfileMain = (props) => {
 		profileImageUpload,
 		profilePicture,
 		backgroundImage,
+		handleUserFollowRequest,
+		handleUserUnfollowRequest,
 	} = props;
 	return (
 		<Grid className={classes.root} container direction="row">
@@ -74,6 +76,8 @@ const UserProfileMain = (props) => {
 					profileOwner={currentProfile.data ? currentProfile.data : ''}
 					profilePicture={profilePicture}
 					profileImageUpload={profileImageUpload}
+					handleUserFollowRequest={handleUserFollowRequest}
+					handleUserUnfollowRequest={handleUserUnfollowRequest}
 				/>
 				{currentProfile.data ? (
 					<Grid container className={classes.profileTweetsNavbar}>

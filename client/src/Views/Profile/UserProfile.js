@@ -13,6 +13,8 @@ import {
 	getUserByUsername,
 	getTweetsByUserId,
 	uploadUserImage,
+	postFollowUser,
+	postUnfollowUser,
 } from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +59,12 @@ const UserProfile = (props) => {
 				const userProfile = await getUserByUsername(username);
 				//this is bad, need to avoid making two calls here
 				const tweetList = await getTweetsByUserId(userProfile.data._id);
+				userProfile.isFollowed =
+					userContext.user.data.following.indexOf(
+						userProfile.data._id.toString()
+					) != -1;
 				setCurrentProfile(userProfile);
+				console.log(userProfile);
 				setTweetList(tweetList.data);
 				if (userProfile.data.profilePicture) {
 					setProfilePicture(userProfile.data.profilePicture);
@@ -87,7 +94,7 @@ const UserProfile = (props) => {
 			getProfileData();
 			setRecentlyFetched(true);
 		}
-	}, [recentlyFetched]);
+	}, [recentlyFetched, currentProfile]);
 
 	const postTweet = async () => {
 		if (newTweet) {
@@ -147,6 +154,21 @@ const UserProfile = (props) => {
 		setComposeTweetModalOpen(false);
 	};
 
+	const handleUserFollowRequest = async () => {
+		await postFollowUser(currentProfile.data._id);
+		let current = currentProfile;
+		current.isFollowed = true;
+		setCurrentProfile(current);
+	};
+
+	const handleUserUnfollowRequest = async () => {
+		await postUnfollowUser(currentProfile.data._id);
+		let current = currentProfile;
+		current.isFollowed = false;
+		console.log('should alter prof');
+		setCurrentProfile(current);
+	};
+
 	return (
 		<CssBaseline>
 			<Grid className={classes.root} container direction="row">
@@ -160,6 +182,8 @@ const UserProfile = (props) => {
 						backgroundImage={backgroundImage}
 						profilePicture={profilePicture}
 						profileImageUpload={profileImageUpload}
+						handleUserFollowRequest={handleUserFollowRequest}
+						handleUserUnfollowRequest={handleUserUnfollowRequest}
 					/>
 				</Grid>
 			</Grid>

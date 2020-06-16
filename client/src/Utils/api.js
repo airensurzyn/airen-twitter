@@ -40,6 +40,14 @@ const postTweetLike = (tweetId) => {
 	return axios.post('/api/tweets/' + tweetId + '/like');
 };
 
+const postFollowUser = (userToFollowId) => {
+	return axios.post('/api/users/' + userToFollowId + '/follow');
+};
+
+const postUnfollowUser = (userToUnFollowId) => {
+	return axios.post('/api/users/' + userToUnFollowId + '/unfollow');
+};
+
 export {
 	registerUser,
 	loginUser,
@@ -51,4 +59,6 @@ export {
 	uploadUserImage,
 	getProfilePicture,
 	postTweetLike,
+	postFollowUser,
+	postUnfollowUser,
 };

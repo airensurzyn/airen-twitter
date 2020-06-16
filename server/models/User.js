@@ -26,6 +26,8 @@ const UserSchema = new Schema({
 		type: String,
 		required: false,
 	},
+	following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	followedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 	profileBackground: { type: String, required: false },
 	date: {
 		type: Date,

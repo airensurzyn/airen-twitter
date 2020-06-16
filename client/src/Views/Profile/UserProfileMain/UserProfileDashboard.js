@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import Dropzone from 'react-dropzone';
+import StyledOutlineButton from '../../../Components/Buttons/StyledOutlineButton';
+import StyledFillButton from '../../../Components/Buttons/StyledFillButton';
+import colors from '../../../Styles/colors';
 
 import AuthNUserContext from '../../../Components/Session/AuthNUserContext';
 
@@ -65,16 +68,40 @@ const useStyles = makeStyles((theme) => ({
 		color: '#636363',
 	},
 	uploadImageLabel: { paddingTop: '35%', fontSize: '1rem' },
+	followSection: {
+		margin: 'auto',
+	},
+	followButton: {
+		background: `${colors.white}`,
+	},
 }));
 
 const UserProfileDashboard = (props) => {
 	const classes = useStyles();
 	const userContext = useContext(AuthNUserContext);
 
-	const { profileOwner, profilePicture, profileImageUpload } = props;
+	const {
+		profileOwner,
+		profilePicture,
+		profileImageUpload,
+		handleUserFollowRequest,
+		handleUserUnfollowRequest,
+	} = props;
+
+	console.log(profileOwner);
 
 	const handleUploadImage = (file) => {
 		profileImageUpload(file);
+	};
+
+	const handleFollowClick = () => {
+		console.log('got here');
+		handleUserFollowRequest();
+	};
+
+	const handleUnfollowClick = () => {
+		console.log('got here 2');
+		handleUserUnfollowRequest();
 	};
 
 	const profileImageElement = function () {
@@ -94,10 +121,7 @@ const UserProfileDashboard = (props) => {
 			profilePicture !== 'none'
 		) {
 			return (
-				<div
-					className={classes.profileImageContainerNoImage}
-					//onClick={handleUploadImage}
-				>
+				<div className={classes.profileImageContainerNoImage}>
 					<Dropzone onDrop={(e) => handleUploadImage(e)}>
 						{({ getRootProps, getInputProps }) => (
 							<section className={classes.dropzone}>
@@ -125,48 +149,88 @@ const UserProfileDashboard = (props) => {
 				</div>
 			);
 		} else {
-			return (
-				<div
-					className={classes.profileImageContainerNoImage}
-					//onClick={handleUploadImage}
-				></div>
-			);
+			return <div className={classes.profileImageContainerNoImage}></div>;
 		}
 	};
 
 	return (
 		<Grid container direction="column">
 			<Grid item>{profileImageElement()}</Grid>
-			<Grid container direction="column" className={classes.profileInfoSection}>
+			<Grid container direction="row">
 				{profileOwner ? (
-					<div>
-						<Grid item>
-							<Typography className={classes.profileUsername}>
-								!{profileOwner.username}
-							</Typography>
-						</Grid>
-						<Grid item>
-							<Typography className={classes.profileDetail}>
-								Joined : {profileOwner ? profileOwner.date.slice(0, 4) : ''}
-							</Typography>
-						</Grid>
-						<Grid item container direction="row">
-							<Typography className={classes.profileDetail}>
-								Followers:{' '}
-							</Typography>
-							<Typography className={classes.profileDetail}>
-								Followed By:
-							</Typography>
-						</Grid>
-					</div>
-				) : (
-					<Grid container direction="row">
-						<Grid container direction="column">
-							<Grid item className={classes.notFoundMessage}>
-								User Not Found
+					<Grid container>
+						<Grid item xs={6}>
+							<Grid
+								container
+								direction="column"
+								className={classes.profileInfoSection}
+							>
+								<Grid item>
+									<Typography className={classes.profileUsername}>
+										!{profileOwner.username}
+									</Typography>
+								</Grid>
+								<Grid item>
+									<Typography className={classes.profileDetail}>
+										Joined : {profileOwner ? profileOwner.date.slice(0, 4) : ''}
+									</Typography>
+								</Grid>
+								<Grid item container direction="row">
+									<Typography className={classes.profileDetail}>
+										Followers:{' '}
+									</Typography>
+									<Typography className={classes.profileDetail}>
+										Followed By:
+									</Typography>
+								</Grid>
 							</Grid>
-							<Grid item className={classes.notFoundSubMessage}>
-								Try another username
+						</Grid>
+						<Grid item xs={6}>
+							{profileOwner.username != userContext.user.data.username ? (
+								<Grid item xs={6}>
+									<Grid container direction="column">
+										<Grid item className={classes.followSection}>
+											{userContext.user.data.following.indexOf(
+												profileOwner._id.toString()
+											) != -1 ? (
+												<StyledFillButton
+													onClick={handleUnfollowClick}
+													className={classes.followButton}
+												>
+													Unfollow
+												</StyledFillButton>
+											) : (
+												<StyledOutlineButton
+													onClick={handleFollowClick}
+													className={classes.followButton}
+												>
+													Follow
+												</StyledOutlineButton>
+											)}
+										</Grid>
+									</Grid>
+								</Grid>
+							) : (
+								<Grid item xs={6}></Grid>
+							)}
+						</Grid>
+					</Grid>
+				) : (
+					<Grid item xs={12}>
+						<Grid
+							container
+							direction="column"
+							className={classes.profileInfoSection}
+						>
+							<Grid container direction="row">
+								<Grid container direction="column">
+									<Grid item className={classes.notFoundMessage}>
+										User Not Found
+									</Grid>
+									<Grid item className={classes.notFoundSubMessage}>
+										Try another username
+									</Grid>
+								</Grid>
 							</Grid>
 						</Grid>
 					</Grid>
